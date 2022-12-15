@@ -1,0 +1,59 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.AppTheme" parent="XUITheme.Phone">
+        <!--将ActionBar隐藏,这里使用ToolBar-->
+        <item name="windowActionBar">false</item>
+        <!-- 使用 API Level 22以上编译的话，要拿掉前綴字 -->
+        <item name="windowNoTitle">true</item>
+        <!--colorPrimary 对应ToolBar的颜色-->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <!--colorPrimaryDark对应状态栏的颜色-->
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <!--colorAccent 对应EditText编辑时、RadioButton选中、CheckBox等选中时的颜色。-->
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:windowBackground">@color/white</item>
+    </style>
+    <style name="DetailTheme" parent="Theme.AppTheme">
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
+    </style>
+    <style name="SplashTheme" parent="XUITheme.Launch">
+        <item name="android:windowBackground">@color/colorPrimary</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+    <style name="button_action_home_fs">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/bg_home_ad_button_pt</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">9dp</item>
+        <item name="android:paddingBottom">9dp</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:layout_marginBottom">12dp</item>
+        <item name="android:textColor">@color/white</item>
+
+    </style>
+    <style name="button_action_result_fs">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/bg_home_ad_button_pt</item>
+        <item name="android:gravity">center</item>
+        <item name="paddingStart">22dp</item>
+        <item name="paddingEnd">22dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+    <style name="button_action_back_fs">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/bg_home_ad_button_pt</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+</resources>

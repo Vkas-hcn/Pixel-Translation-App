@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="presenter"
+            type="com.vkas.translationapp.ui.main.MainActivity.Presenter" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.main.MainActivity">
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/bg_main_top"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.15"
+            app:layout_constraintStart_toStartOf="@+id/imageView3"
+            app:layout_constraintTop_toBottomOf="@+id/in_main_title_pt"
+            app:layout_constraintVertical_bias="0.5">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/welcome"
+                android:textColor="#FF343300"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pixel"
+                android:textColor="#FF343300"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/translate"
+                android:textColor="#FF343300"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView3">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/con_ocr"
+                android:layout_width="157dp"
+                android:layout_height="162dp"
+                android:onClick="@{() ->presenter.clickOcr()}"
+                android:background="@drawable/ic_bg_main_translation">
+
+                <ImageView
+                    android:id="@+id/imageView_ocr"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="22dp"
+                    android:src="@mipmap/ic_ocr"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView_ocr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="22dp"
+                    android:text="@string/ocr"
+                    android:textColor="#FF333333"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView_ocr" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/camera_translate"
+                    android:textColor="#FF333333"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="@+id/textView_ocr"
+                    app:layout_constraintTop_toBottomOf="@+id/textView_ocr" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/con_tran"
+                android:layout_width="157dp"
+                android:layout_height="162dp"
+                android:layout_marginStart="14dp"
+                android:onClick="@{() ->presenter.clickTranslation()}"
+                android:background="@drawable/ic_bg_main_translation"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <ImageView
+                    android:id="@+id/imageView_tran"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="22dp"
+                    android:src="@mipmap/ic_translation"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView_tran"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="22dp"
+                    android:text="@string/translate"
+                    android:textColor="#FF333333"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView_tran" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/multilingual"
+                    android:textColor="#FF333333"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="@+id/textView_tran"
+                    app:layout_constraintTop_toBottomOf="@+id/textView_tran" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+        <include
+            android:id="@+id/in_main_title_pt"
+            layout="@layout/layout_toolbar_pt" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

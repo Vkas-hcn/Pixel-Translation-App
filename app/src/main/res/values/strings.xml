@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Translation App</string>
+    <string name="ocr">OCR</string>
+    <string name="camera_translate">Camera Translate</string>
+    <string name="translate">Translate</string>
+    <string name="multilingual">multilingual</string>
+    <string name="done">Done</string>
+    <string name="pixel">Pixel</string>
+    <string name="welcome">welcome</string>
+    <string name="english">English</string>
+    <string name="enter_here">Enter Here……</string>
+    <string name="unknown_error">Unknown error occurred.</string>
+    <string name="translate_failed">translate failed，please try again</string>
+    <string name="search">Search</string>
+    <string name="recently">Recently</string>
+    <string name="all">All</string>
+    <string name="delete_title">Delete language pack</string>
+    <string name="delete_message">Whether to delete the language pack?</string>
+
+</resources>
