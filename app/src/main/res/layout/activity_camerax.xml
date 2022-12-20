@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:binding="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="presenter"
+            type="com.vkas.translationapp.ui.camare.CameraXActivity.Presenter" />
+        <variable
+            name="selectedSourceLang"
+            type="Integer"
+            android:value="1" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/in_camera_title_pt"
+            binding:presenter ="@{presenter}"
+            binding:selectedSourceLang="@{selectedSourceLang}"
+            layout="@layout/layout_camera_toolbar_pt" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/con_shot"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/img_shot"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop" />
+
+            <EditText
+                android:id="@+id/ed_camera_top"
+                android:layout_width="292dp"
+                android:layout_height="156dp"
+                android:layout_marginTop="108dp"
+                android:background="@null"
+                android:focusable="false"
+                android:gravity="top"
+                android:inputType="textMultiLine"
+                android:textColor="@color/white"
+                android:textSize="19sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/img_shot" />
+
+            <View
+                android:id="@+id/view_line"
+                android:layout_width="292dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="22dp"
+                android:background="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ed_camera_top" />
+
+            <EditText
+                android:id="@+id/ed_camera_down"
+                android:layout_width="292dp"
+                android:layout_height="156dp"
+                android:layout_marginTop="22dp"
+                android:background="@null"
+                android:focusable="false"
+                android:gravity="top"
+                android:inputType="textMultiLine"
+                android:textColor="#FF4A9AFF"
+                android:textSize="19sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view_line" />
+
+            <TextView
+                android:id="@+id/tv_camera_copy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_copy"
+                android:onClick="@{() ->presenter.toCopy()}"
+                android:paddingStart="68dp"
+                android:paddingTop="15dp"
+                android:paddingEnd="68dp"
+                android:paddingBottom="15dp"
+                android:text="@string/copy"
+                android:textColor="#FFFFFFFF"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/img_shot"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ed_camera_down" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/con_camera"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible">
+
+            <androidx.camera.view.PreviewView
+                android:id="@+id/pvCameraX"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <ImageView
+                android:id="@+id/img_file"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="87dp"
+                android:onClick="@{() ->presenter.toImageFile()}"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_file"
+                android:text="@string/translate"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/img_camera_button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/img_camera_button" />
+
+            <ImageView
+                android:id="@+id/img_camera_button"
+                android:layout_width="76dp"
+                android:layout_height="76dp"
+                android:layout_marginBottom="87dp"
+                android:onClick="@{() ->presenter.toPhotograph()}"
+                android:src="@drawable/ic_camera_button"
+                android:text="@string/translate"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+</layout>

@@ -24,7 +24,9 @@
             android:value="1" />
 
     </data>
-
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -132,6 +134,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ll_recently">
@@ -147,16 +150,17 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_all"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_language"
+                android:layout_height="250dp"
                 android:layout_marginTop="7dp"
+                android:background="@drawable/bg_language"
                 app:adapter="@{allAdapter}"
-                app:layoutManager="@{layoutManager}"
-                tools:listitem="@layout/item_language"/>
+                app:layoutManager="@{layoutManager}"/>
         </LinearLayout>
 
         <include
             android:id="@+id/in_translation_title_pt"
             layout="@layout/layout_toolbar_pt" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
 </layout>

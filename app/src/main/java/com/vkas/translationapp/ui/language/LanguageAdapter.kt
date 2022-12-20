@@ -9,8 +9,7 @@ import java.util.*
 import android.widget.LinearLayout
 
 import androidx.recyclerview.widget.RecyclerView
-
-
+import com.google.mlkit.nl.translate.TranslateLanguage
 
 
 class LanguageAdapter (data: MutableList<Language>?) :
@@ -34,12 +33,12 @@ class LanguageAdapter (data: MutableList<Language>?) :
             2->{
                 holder.setVisible(R.id.img_down_state,true)
                 holder.setVisible(R.id.pro_down_state,false)
-                if(item.isCheck){
-                    holder.setImageResource(R.id.img_down_state,R.drawable.ic_lan_check)
-                }else{
-                    holder.setImageResource(R.id.img_down_state,R.mipmap.ic_lan_delete)
-                }
+                holder.setImageResource(R.id.img_down_state,R.mipmap.ic_lan_delete)
             }
+        }
+        if(item.code == TranslateLanguage.ENGLISH){
+            holder.setVisible(R.id.img_down_state,false)
+            holder.setVisible(R.id.pro_down_state,false)
         }
 
     }

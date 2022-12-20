@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.vkas.translationapp">
-
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera.any" />
     <application
         android:name=".app.App"
         android:allowBackup="true"
@@ -29,6 +30,10 @@
         <activity android:name=".ui.translation.TranslationActivity"
             android:launchMode="singleTop"/>
         <activity android:name=".ui.language.LanguageActivity"
+            android:launchMode="singleTop"/>
+        <activity android:name=".ui.camare.CameraXActivity"
+            android:launchMode="singleTop"/>
+        <activity android:name=".ui.web.WebPtActivity"
             android:launchMode="singleTop"/>
     </application>
 

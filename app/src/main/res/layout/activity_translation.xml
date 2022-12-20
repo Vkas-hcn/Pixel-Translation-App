@@ -111,7 +111,7 @@
             <EditText
                 android:id="@+id/ed_translation_top"
                 android:layout_width="match_parent"
-                android:layout_height="239dp"
+                android:layout_height="200dp"
                 android:background="@null"
                 android:gravity="top"
                 android:hint="@string/enter_here"
@@ -172,10 +172,16 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tv_translation_down"
+            <EditText
+                android:id="@+id/ed_translation_down"
                 android:layout_width="match_parent"
-                android:layout_height="239dp"
+                android:layout_height="200dp"
+                android:background="@null"
+                android:enabled="true"
+                android:focusableInTouchMode="false"
+                android:focusable="false"
+                android:gravity="top"
+                android:inputType="textMultiLine"
                 android:textColor="#FF4F51C0"
                 android:textSize="19sp"
                 app:layout_constraintBottom_toBottomOf="parent"

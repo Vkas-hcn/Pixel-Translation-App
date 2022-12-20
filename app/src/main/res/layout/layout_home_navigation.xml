@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="presenter"
+            type="com.vkas.translationapp.ui.main.MainActivity.Presenter" />
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:onClick="@{() ->presenter.clickMain()}"
+        android:background="#4F000000">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:onClick="@{() ->presenter.clickMainMenu()}"
+            android:background="@color/white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.3">
+
+                <TextView
+                    android:id="@+id/tv_contact_us_pt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_home_navigation"
+                    android:onClick="@{() ->presenter.toContactUs()}"
+                    android:drawablePadding="112dp"
+                    android:gravity="center"
+                    android:paddingStart="30dp"
+                    android:paddingTop="25dp"
+                    android:paddingEnd="26dp"
+                    android:paddingBottom="25dp"
+                    android:text="@string/contact_us"
+                    android:textColor="#FF333333"
+                    android:textSize="14sp"
+                    app:drawableEndCompat="@drawable/ic_baseline_keyboard_arrow_right_24" />
+
+                <TextView
+                    android:id="@+id/tv_privacy_policy_pt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/bg_home_navigation"
+                    android:onClick="@{() ->presenter.toPrivacyPolicy()}"
+                    android:drawablePadding="112dp"
+                    android:gravity="center"
+                    android:paddingStart="30dp"
+                    android:paddingTop="25dp"
+                    android:paddingEnd="26dp"
+                    android:paddingBottom="25dp"
+                    android:text="@string/privacy_policy"
+                    android:textColor="#FF333333"
+                    android:textSize="14sp"
+                    app:drawableEndCompat="@drawable/ic_baseline_keyboard_arrow_right_24" />
+
+                <TextView
+                    android:id="@+id/tv_share_pt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_home_navigation"
+                    android:onClick="@{() ->presenter.toShare()}"
+
+                    android:drawablePadding="112dp"
+                    android:gravity="center"
+                    android:paddingStart="30dp"
+                    android:paddingTop="25dp"
+                    android:paddingEnd="26dp"
+                    android:paddingBottom="25dp"
+                    android:text="@string/share"
+                    android:textColor="#FF333333"
+                    android:textSize="14sp"
+                    app:drawableEndCompat="@drawable/ic_baseline_keyboard_arrow_right_24" />
+
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
+</layout>
+

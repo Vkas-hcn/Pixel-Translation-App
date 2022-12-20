@@ -52,9 +52,10 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:gravity="center"
+                    android:visibility="invisible"
                     android:text="@string/done"
                     android:textColor="#FFFFCA4E"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
     </FrameLayout>

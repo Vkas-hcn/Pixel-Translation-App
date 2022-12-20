@@ -2,6 +2,8 @@ package com.vkas.translationapp.ui.translation
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import androidx.lifecycle.lifecycleScope
 import com.google.mlkit.nl.translate.TranslateLanguage
 import com.vkas.translationapp.BR
 import com.vkas.translationapp.R
@@ -14,10 +16,16 @@ import com.vkas.translationapp.ui.language.LanguageActivity
 import com.vkas.translationapp.utils.CopyUtils
 import com.vkas.translationapp.utils.KLog
 import com.vkas.translationapp.utils.MlKitData
+import com.vkas.translationapp.widget.PtLoadingDialog
 import com.xuexiang.xutil.app.ActivityUtils
+import com.xuexiang.xutil.tip.ToastUtils
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.*
 
 class TranslationActivity : BaseActivity<ActivityTranslationBinding, TranslationViewModel>() {
+    private lateinit var ptLoadingDialog: PtLoadingDialog
+
     override fun initContentView(savedInstanceState: Bundle?): Int {
         return R.layout.activity_translation
     }
@@ -33,21 +41,25 @@ class TranslationActivity : BaseActivity<ActivityTranslationBinding, Translation
     override fun initToolbar() {
         super.initToolbar()
         binding.presenter = Presenter()
+        binding.inTranslationTitlePt.let {
+            it.imgBack.setImageResource(R.drawable.ic_title_back)
+            it.imgBack.setOnClickListener {
+                finish()
+            }
+        }
     }
 
     override fun initData() {
         super.initData()
-        MlKitData.getInstance().sourceLang.value =
-            mmkvPt.decodeString(Constant.SOURCE_LANG, TranslateLanguage.ENGLISH)
-                ?.let { Language(it) }
-        Language(TranslateLanguage.ENGLISH)
-        MlKitData.getInstance().targetLang.value =
-            mmkvPt.decodeString(Constant.TARGET_LANG, TranslateLanguage.ENGLISH)
-                ?.let { Language(it) }
+        ptLoadingDialog = PtLoadingDialog(this)
+        viewModel.initializeLanguageBox(binding)
         updateLanguageItem()
         MlKitData.getInstance().fetchDownloadedModels()
     }
 
+    /**
+     *
+     */
     override fun initViewObservable() {
         super.initViewObservable()
         showTranslationResult()
@@ -55,30 +67,46 @@ class TranslationActivity : BaseActivity<ActivityTranslationBinding, Translation
 
     private fun showTranslationResult() {
         MlKitData.getInstance().sourceText.observe(this, {
-            binding.tvTranslationDown.text = it
+            binding.edTranslationDown.setText(it)
+            ptLoadingDialog.dismiss()
         })
     }
 
     /**
      * 更新语言项
      */
-    private fun updateLanguageItem(){
-        binding.tvLanguageLeft.text = Locale( MlKitData.getInstance().sourceLang.value?.code).displayLanguage
-        binding.tvLanguageTopName.text = Locale( MlKitData.getInstance().sourceLang.value?.code).displayLanguage
-        binding.tvLanguageRight.text = Locale( MlKitData.getInstance().targetLang.value?.code).displayLanguage
-        binding.tvLanguageDownName.text = Locale( MlKitData.getInstance().targetLang.value?.code).displayLanguage
+    private fun updateLanguageItem() {
+        binding.tvLanguageLeft.text =
+            Locale(MlKitData.getInstance().sourceLang.value?.code).displayLanguage
+        binding.tvLanguageTopName.text =
+            Locale(MlKitData.getInstance().sourceLang.value?.code).displayLanguage
+        binding.tvLanguageRight.text =
+            Locale(MlKitData.getInstance().targetLang.value?.code).displayLanguage
+        binding.tvLanguageDownName.text =
+            Locale(MlKitData.getInstance().targetLang.value?.code).displayLanguage
     }
 
+    /**
+     * 交换翻译结果
+     */
+    fun exchangeTranslationResults() {
+        if (binding.edTranslationDown.text.isNullOrEmpty()) {
+            return
+        }
+        val edTranslationTop = binding.edTranslationTop.text
+        binding.edTranslationTop.text = binding.edTranslationDown.text
+        binding.edTranslationDown.text = edTranslationTop
+    }
 
     inner class Presenter {
         fun toLanguage(type: Int) {
-            KLog.e("TAG", "type==$type")
             ActivityUtils.startActivityForResult(
                 this@TranslationActivity,
                 LanguageActivity().javaClass,
                 Constant.JUMP_LANGUAGE_PAGE,
                 Constant.JUMP_LANGUAGE_PARAMETERS,
-                type)
+                type
+            )
         }
 
         fun toExchange() {
@@ -89,6 +117,7 @@ class TranslationActivity : BaseActivity<ActivityTranslationBinding, Translation
             }
             viewModel.exchangeLanguage()
             updateLanguageItem()
+            exchangeTranslationResults()
         }
 
         fun toDelete() {
@@ -96,18 +125,28 @@ class TranslationActivity : BaseActivity<ActivityTranslationBinding, Translation
         }
 
         fun toTranslation() {
-            MlKitData.getInstance().sourceText.value = binding.edTranslationTop.text.toString()
-            MlKitData.getInstance().translate()
+            if(binding.edTranslationTop.text.trim().isEmpty()){
+                ToastUtils.toast(getString(R.string.please_enter_the_translation_content))
+                return
+            }
+            lifecycleScope.launch {
+                ptLoadingDialog.show()
+                delay(500L)
+                viewModel.translateRecognizedText(binding.edTranslationTop.text.toString())
+            }
         }
 
         fun toCopy() {
-            CopyUtils.copyClicks(this@TranslationActivity, binding.tvTranslationDown.toString())
+            CopyUtils.copyClicks(
+                this@TranslationActivity,
+                binding.edTranslationDown.text.toString()
+            )
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == Constant.JUMP_LANGUAGE_PAGE){
+        if (requestCode == Constant.JUMP_LANGUAGE_PAGE) {
             updateLanguageItem()
         }
     }

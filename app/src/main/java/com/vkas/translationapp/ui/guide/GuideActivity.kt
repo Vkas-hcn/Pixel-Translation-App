@@ -1,6 +1,7 @@
 package com.vkas.translationapp.ui.guide
 
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
 import androidx.lifecycle.lifecycleScope
 import com.vkas.translationapp.BR
@@ -73,5 +74,8 @@ class GuideActivity : BaseActivity<ActivityGuideBinding, GuideViewModel>(),
     }
 
     override fun onHorizontalProgressFinished(view: View?) {
+    }
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        return keyCode == KeyEvent.KEYCODE_BACK
     }
 }
