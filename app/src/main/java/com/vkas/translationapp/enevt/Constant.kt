@@ -4,9 +4,9 @@ object Constant {
     // 分享地址
     const val SHARE_PT_ADDRESS="https://play.google.com/store/apps/details?id="
     // privacy_agreement
-    const val PRIVACY_PT_AGREEMENT="https://www.baidu.com/"
+    const val PRIVACY_PT_AGREEMENT="https://sites.google.com/view/pixel-translator/home"
     // email
-    const val MAILBOX_PT_ADDRESS="vkas@qq.com"
+    const val MAILBOX_PT_ADDRESS="laurenbee5169@gmail.com"
     const val RETURN_PT_CURRENT_PAGE ="returnPtCurrentPage"
     //下载中
     const val DOWNLOADING ="downloading"
