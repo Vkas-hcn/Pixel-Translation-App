@@ -31,4 +31,7 @@
     <string name="text_not_recognized">Text not recognized</string>
     <string name="please_enter_the_translation_content">Please enter the translation content</string>
     <string name="do_you_want_to_try_again">Do you want to try again</string>
+
+    <string name="fast_service">Fast Server</string>
+
 </resources>

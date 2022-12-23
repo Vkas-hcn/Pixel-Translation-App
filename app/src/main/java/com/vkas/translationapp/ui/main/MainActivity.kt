@@ -11,21 +11,30 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.lifecycleScope
+import com.jeremyliao.liveeventbus.LiveEventBus
 import com.vkas.translationapp.BR
 import com.vkas.translationapp.R
+import com.vkas.translationapp.ad.PtLoadHomeAd
+import com.vkas.translationapp.ad.PtLoadTranslationBackAd
+import com.vkas.translationapp.app.App
 import com.vkas.translationapp.base.BaseActivity
 import com.vkas.translationapp.bean.Language
 import com.vkas.translationapp.databinding.ActivityMainBinding
 import com.vkas.translationapp.enevt.Constant
+import com.vkas.translationapp.enevt.Constant.logTagPt
 import com.vkas.translationapp.ui.camare.CameraXActivity
 import com.vkas.translationapp.ui.translation.TranslationActivity
 import com.vkas.translationapp.ui.web.WebPtActivity
 import com.vkas.translationapp.utils.KLog
 import com.vkas.translationapp.utils.MlKitData
 import com.xuexiang.xutil.tip.ToastUtils
+import kotlinx.coroutines.*
 
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
-
+    private var jobNativeAdsPt: Job? = null
     override fun initContentView(savedInstanceState: Bundle?): Int {
         return R.layout.activity_main
     }
@@ -47,16 +56,31 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         }
         binding.inMainTitlePt.imgBack.setOnClickListener {
             binding.sidebarShowsPt = binding.sidebarShowsPt != true
-
         }
     }
 
     override fun initData() {
         super.initData()
+        PtLoadHomeAd.getInstance().whetherToShowPt = false
+        PtLoadHomeAd.getInstance().advertisementLoadingPt(this)
+        initHomeAd()
     }
 
     override fun initViewObservable() {
         super.initViewObservable()
+    }
+
+    private fun initHomeAd() {
+        jobNativeAdsPt = lifecycleScope.launch {
+            while (isActive) {
+                PtLoadHomeAd.getInstance().setDisplayHomeNativeAdPt(this@MainActivity, binding)
+                if (PtLoadHomeAd.getInstance().whetherToShowPt) {
+                    jobNativeAdsPt?.cancel()
+                    jobNativeAdsPt = null
+                }
+                delay(1000L)
+            }
+        }
     }
 
     inner class Presenter {
@@ -79,12 +103,14 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         fun clickTranslation() {
             startActivity(TranslationActivity::class.java)
         }
-        fun clickMainMenu(){}
-        fun clickMain(){
+
+        fun clickMainMenu() {}
+        fun clickMain() {
             if (binding.sidebarShowsPt == true) {
                 binding.sidebarShowsPt = false
             }
         }
+
         fun toContactUs() {
             val uri = Uri.parse("mailto:${Constant.MAILBOX_PT_ADDRESS}")
             val intent = Intent(Intent.ACTION_SENDTO, uri)
@@ -159,6 +185,29 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
             data = Uri.fromParts("package", this@MainActivity.packageName, null)
         }
         startActivity(intent)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        lifecycleScope.launch {
+            delay(300)
+            if (lifecycle.currentState != Lifecycle.State.RESUMED) {
+                return@launch
+            }
+            if (App.nativeAdRefreshPt) {
+                PtLoadHomeAd.getInstance().whetherToShowPt = false
+                if (PtLoadHomeAd.getInstance().appAdDataPt != null) {
+                    KLog.d(logTagPt, "onResume------>1")
+                    PtLoadHomeAd.getInstance().setDisplayHomeNativeAdPt(this@MainActivity, binding)
+                } else {
+                    binding.homeAdPt = false
+                    KLog.d(logTagPt, "onResume------>2")
+                    PtLoadHomeAd.getInstance().advertisementLoadingPt(this@MainActivity)
+                    initHomeAd()
+                }
+            }
+        }
+
     }
 
 }

@@ -22,7 +22,9 @@ import com.vkas.translationapp.base.AppManagerPtMVVM
 import com.vkas.translationapp.enevt.Constant
 import com.vkas.translationapp.ui.guide.GuideActivity
 import com.vkas.translationapp.utils.ActivityUtils
+import com.vkas.translationapp.utils.CalendarUtils
 import com.vkas.translationapp.utils.KLog
+import com.vkas.translationapp.utils.MmkvUtils
 import com.xuexiang.xui.XUI
 import com.xuexiang.xutil.XUtil
 import kotlinx.coroutines.GlobalScope
@@ -48,14 +50,30 @@ class App : Application(), LifecycleObserver {
             //启用mmkv的多进程功能
             MMKV.mmkvWithID("Pixel", MMKV.MULTI_PROCESS_MODE)
         }
-
+        //当日日期
+        var adDatePt = ""
+        /**
+        * 判断是否是当天打开
+        */
+        fun isAppOpenSameDayPt() {
+            adDatePt = mmkvPt.decodeString(Constant.CURRENT_PT_DATE, "").toString()
+            if (adDatePt == "") {
+                MmkvUtils.set(Constant.CURRENT_PT_DATE, CalendarUtils.formatDateNow())
+            } else {
+                if (CalendarUtils.dateAfterDate(adDatePt, CalendarUtils.formatDateNow())) {
+                    MmkvUtils.set(Constant.CURRENT_PT_DATE, CalendarUtils.formatDateNow())
+                    MmkvUtils.set(Constant.CLICKS_PT_COUNT, 0)
+                    MmkvUtils.set(Constant.SHOW_PT_COUNT, 0)
+                }
+            }
+        }
 
     }
     override fun onCreate() {
         super.onCreate()
         MMKV.initialize(this)
 //        initCrash()
-        setActivityLifecycleFs(this)
+        setActivityLifecyclePt(this)
         MobileAds.initialize(this) {}
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
         if (ProcessUtils.isMainProcess()) {
@@ -78,9 +96,9 @@ class App : Application(), LifecycleObserver {
         job_pt = null
         KLog.v("Lifecycle", "onMoveToForeground=$whetherBackgroundPt")
         //从后台切过来，跳转启动页
-//        if (whetherBackgroundPt&& !isBackDataPt) {
-//            jumpGuidePage()
-//        }
+        if (whetherBackgroundPt&& !isBackDataPt) {
+            jumpGuidePage()
+        }
     }
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun onStopState(){
@@ -102,7 +120,7 @@ class App : Application(), LifecycleObserver {
         intent.putExtra(Constant.RETURN_PT_CURRENT_PAGE, true)
         top_activity_pt?.startActivity(intent)
     }
-    fun setActivityLifecycleFs(application: Application) {
+    fun setActivityLifecyclePt(application: Application) {
         //注册监听每个activity的生命周期,便于堆栈式管理
         application.registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {
             override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {

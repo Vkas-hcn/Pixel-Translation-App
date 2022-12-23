@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
@@ -30,18 +31,23 @@ import com.google.mlkit.vision.text.chinese.ChineseTextRecognizerOptions
 import com.google.mlkit.vision.text.japanese.JapaneseTextRecognizerOptions
 import com.google.mlkit.vision.text.korean.KoreanTextRecognizerOptions
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
+import com.jeremyliao.liveeventbus.LiveEventBus
+import com.vkas.translationapp.ad.PtLoadOcrBackAd
+import com.vkas.translationapp.ad.PtLoadTranslationBackAd
+import com.vkas.translationapp.app.App
 import com.vkas.translationapp.bean.Language
 import com.vkas.translationapp.enevt.Constant
 import com.vkas.translationapp.ui.language.LanguageActivity
 import com.vkas.translationapp.utils.CopyUtils
 import com.vkas.translationapp.utils.KLog
 import com.vkas.translationapp.utils.MlKitData
+import com.vkas.translationapp.utils.PixelUtils
 import com.vkas.translationapp.widget.PtLoadingDialog
 import com.xuexiang.xutil.app.ActivityUtils
 import com.xuexiang.xutil.tip.ToastUtils
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.lang.Exception
+import java.lang.Runnable
 
 
 class CameraXActivity : BaseActivity<ActivityCameraxBinding, CameraXViewModel>() {
@@ -49,6 +55,7 @@ class CameraXActivity : BaseActivity<ActivityCameraxBinding, CameraXViewModel>()
     private lateinit var imageCapture: ImageCapture
     private lateinit var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>
     private var cameraProvider: ProcessCameraProvider? = null
+    private var jobBack: Job? = null
 
     override fun initContentView(savedInstanceState: Bundle?): Int {
         return R.layout.activity_camerax
@@ -65,18 +72,60 @@ class CameraXActivity : BaseActivity<ActivityCameraxBinding, CameraXViewModel>()
     override fun initToolbar() {
         super.initToolbar()
         binding.presenter = Presenter()
-        binding.inCameraTitlePt.imgBack
     }
 
     override fun initData() {
         super.initData()
+        liveEventBusReceive()
         ptLoadingDialog = PtLoadingDialog(this)
         viewModel.initializeLanguageBox()
         MlKitData.getInstance().fetchDownloadedModels()
         updateLanguageItem()
         initCameraX()
     }
-
+    private fun liveEventBusReceive() {
+        //插屏关闭后跳转
+        LiveEventBus
+            .get(Constant.PLUG_PT_OCR_AD_SHOW, Boolean::class.java)
+            .observeForever {
+                PtLoadOcrBackAd.getInstance().advertisementLoadingPt(this)
+//                if(!it){
+                    finish()
+//                }
+            }
+    }
+    /**
+     * 返回主页
+     */
+    private fun returnToHomePage() {
+        App.isAppOpenSameDayPt()
+        if (PixelUtils.isThresholdReached()) {
+            KLog.d(Constant.logTagPt, "广告达到上线")
+            finish()
+            return
+        }
+        PtLoadOcrBackAd.getInstance().advertisementLoadingPt(this)
+        jobBack= GlobalScope.launch {
+            try {
+                withTimeout(3000L) {
+                    while (isActive) {
+                        val showState =
+                            PtLoadOcrBackAd.getInstance().displayOcrBackAdvertisementPt(this@CameraXActivity)
+                        if (showState) {
+                            jobBack?.cancel()
+                            jobBack =null
+                        }
+                        delay(1000L)
+                    }
+                }
+            } catch (e: TimeoutCancellationException) {
+                KLog.d(Constant.logTagPt,"ocr-back---插屏超时")
+                if(jobBack!=null){
+                    finish()
+                }
+            }
+        }
+    }
     override fun initViewObservable() {
         super.initViewObservable()
         showTranslationResult()
@@ -92,7 +141,7 @@ class CameraXActivity : BaseActivity<ActivityCameraxBinding, CameraXViewModel>()
     inner class Presenter {
         fun toReturn() {
             if (binding.conCamera.isVisible) {
-                finish()
+                returnToHomePage()
             } else {
                 binding.conShot.visibility = View.GONE
                 binding.conCamera.visibility = View.VISIBLE
@@ -296,5 +345,11 @@ class CameraXActivity : BaseActivity<ActivityCameraxBinding, CameraXViewModel>()
                 updateLanguageItem()
             }
         }
+    }
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            returnToHomePage()
+        }
+        return true
     }
 }

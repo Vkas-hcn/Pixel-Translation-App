@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View" />
+
         <variable
             name="presenter"
             type="com.vkas.translationapp.ui.translation.TranslationActivity.Presenter" />
@@ -11,6 +13,10 @@
             name="selectedSourceLang"
             type="Integer"
             android:value="1" />
+        <variable
+            name="translationAdPt"
+            type="Boolean"
+            android:value="false" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -111,7 +117,7 @@
             <EditText
                 android:id="@+id/ed_translation_top"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="150dp"
                 android:background="@null"
                 android:gravity="top"
                 android:hint="@string/enter_here"
@@ -175,7 +181,7 @@
             <EditText
                 android:id="@+id/ed_translation_down"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="150dp"
                 android:background="@null"
                 android:enabled="true"
                 android:focusableInTouchMode="false"
@@ -189,6 +195,30 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_language_down_name" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_margin="16dp"
+            android:background="@drawable/bg_language"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <FrameLayout
+                android:id="@+id/pt_ad_frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="@{translationAdPt ? View.VISIBLE : View.GONE}" />
+
+            <ImageView
+                android:id="@+id/img_pt_ad_frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_placeholder_trans"
+                android:visibility="@{translationAdPt ? View.GONE : View.VISIBLE}" />
+        </FrameLayout>
         <include
             android:id="@+id/in_translation_title_pt"
             layout="@layout/layout_toolbar_pt" />

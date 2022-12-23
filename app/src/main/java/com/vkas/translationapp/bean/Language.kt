@@ -1,7 +1,8 @@
 package com.vkas.translationapp.bean
 
+import androidx.annotation.Keep
 import java.util.*
-
+@Keep
 class Language (val code: String) : Comparable<Language> {
     var isCheck:Boolean =false
     //0：未下载；1：下载中；2：已下载

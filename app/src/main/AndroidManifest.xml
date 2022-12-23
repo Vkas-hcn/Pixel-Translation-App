@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.vkas.translationapp">
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature android:name="android.hardware.camera.any" />
@@ -18,6 +19,8 @@
             android:name=".ui.guide.GuideActivity"
             android:launchMode="singleTop"
             android:theme="@style/SplashTheme"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,14 +29,24 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.main.MainActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:launchMode="singleTask"/>
         <activity android:name=".ui.translation.TranslationActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:launchMode="singleTop"/>
         <activity android:name=".ui.language.LanguageActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:launchMode="singleTop"/>
         <activity android:name=".ui.camare.CameraXActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:launchMode="singleTop"/>
         <activity android:name=".ui.web.WebPtActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:launchMode="singleTop"/>
     </application>
 

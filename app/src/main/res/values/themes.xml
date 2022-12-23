@@ -22,33 +22,21 @@
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
-    <style name="button_action_home_fs">
+    <style name="button_action_home_pt">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/bg_home_ad_button_pt</item>
         <item name="android:gravity">center</item>
-        <item name="android:paddingTop">9dp</item>
-        <item name="android:paddingBottom">9dp</item>
-        <item name="android:layout_marginTop">12dp</item>
-        <item name="android:layout_marginBottom">12dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:layout_marginStart">5dp</item>
+        <item name="android:layout_marginEnd">5dp</item>
         <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">12sp</item>
 
     </style>
-    <style name="button_action_result_fs">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@drawable/bg_home_ad_button_pt</item>
-        <item name="android:gravity">center</item>
-        <item name="paddingStart">22dp</item>
-        <item name="paddingEnd">22dp</item>
-        <item name="android:paddingTop">8dp</item>
-        <item name="android:paddingBottom">8dp</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">13sp</item>
-    </style>
-
-    <style name="button_action_back_fs">
-        <item name="android:layout_width">match_parent</item>
+    <style name="button_action_back_pt">
+        <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/bg_home_ad_button_pt</item>
         <item name="android:gravity">center</item>

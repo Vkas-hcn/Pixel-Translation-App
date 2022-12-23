@@ -1,0 +1,26 @@
+[
+  {
+    "pt_pwd": "I1m2.E_VBgpkR9nh",
+    "pt_method": "chacha20-ietf-poly1305",
+    "pt_port": 4681,
+    "pt_country": "United Kingdom",
+    "pt_city": "London",
+    "pt_ip": "149.7.16.75"
+  },
+  {
+    "pt_pwd": "I1m2.E_VBgpkR9nh",
+    "pt_method": "chacha20-ietf-poly1305",
+    "pt_port": 4682,
+    "pt_country": "Japan",
+    "pt_city": "Tokyo",
+    "pt_ip": "45.12.207.138"
+  },
+  {
+    "pt_pwd": "I1m2.E_VBgpkR9nh",
+    "pt_method": "chacha20-ietf-poly1305",
+    "pt_port": 4683,
+    "pt_country": "Australia",
+    "pt_city": "Sydney",
+    "pt_ip": "139.99.131.20"
+  }
+]

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View" />
 
         <variable
             name="presenter"
@@ -22,11 +23,12 @@
             name="selectedSourceLang"
             type="Integer"
             android:value="1" />
-
+        <variable
+            name="languageAdPt"
+            type="Boolean"
+            android:value="false" />
     </data>
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -156,11 +158,34 @@
                 app:adapter="@{allAdapter}"
                 app:layoutManager="@{layoutManager}"/>
         </LinearLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="152dp"
+            android:layout_margin="12dp"
+            android:background="@drawable/bg_language"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <FrameLayout
+                android:id="@+id/pt_ad_frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="@{languageAdPt ? View.VISIBLE : View.GONE}" />
+
+            <ImageView
+                android:id="@+id/img_pt_ad_frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_placeholder_home"
+                android:visibility="@{languageAdPt ? View.GONE : View.VISIBLE}" />
+        </FrameLayout>
 
         <include
             android:id="@+id/in_translation_title_pt"
             layout="@layout/layout_toolbar_pt" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</ScrollView>
 </layout>

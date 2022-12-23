@@ -16,6 +16,10 @@
             name="sidebarShowsPt"
             type="Boolean"
             android:value="false" />
+        <variable
+            name="homeAdPt"
+            type="Boolean"
+            android:value="false" />
     </data>
 
     <FrameLayout
@@ -163,7 +167,30 @@
                         app:layout_constraintTop_toBottomOf="@+id/textView_tran" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="152dp"
+                android:layout_margin="12dp"
+                android:background="@drawable/bg_language"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
 
+                <FrameLayout
+                    android:id="@+id/pt_ad_frame"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="@{homeAdPt ? View.VISIBLE : View.GONE}" />
+
+                <ImageView
+                    android:id="@+id/img_pt_ad_frame"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_placeholder_home"
+                    android:visibility="@{homeAdPt ? View.GONE : View.VISIBLE}" />
+            </FrameLayout>
             <include
                 android:id="@+id/in_main_title_pt"
                 layout="@layout/layout_toolbar_pt"
