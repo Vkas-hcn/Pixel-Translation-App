@@ -5,9 +5,7 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.graphics.Color
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,21 +14,16 @@ import com.jeremyliao.liveeventbus.LiveEventBus
 import com.vkas.translationapp.BR
 import com.vkas.translationapp.R
 import com.vkas.translationapp.ad.PtLoadHomeAd
-import com.vkas.translationapp.ad.PtLoadLanguageAd
 import com.vkas.translationapp.ad.PtLoadTranslationAd
-import com.vkas.translationapp.ad.PtLoadTranslationBackAd
 import com.vkas.translationapp.app.App
 import com.vkas.translationapp.base.BaseActivity
 import com.vkas.translationapp.bean.Language
 import com.vkas.translationapp.databinding.ActivityLanguageBinding
-import com.vkas.translationapp.databinding.ActivityTranslationBinding
 import com.vkas.translationapp.enevt.Constant
 import com.vkas.translationapp.ui.translation.TranslationViewModel
-import com.vkas.translationapp.utils.CopyUtils
 import com.vkas.translationapp.utils.KLog
 import com.vkas.translationapp.utils.MlKitData
 import com.vkas.translationapp.utils.MmkvUtils
-import com.xuexiang.xui.adapter.recyclerview.DividerItemDecoration
 import com.xuexiang.xutil.net.JsonUtil
 import kotlinx.coroutines.*
 import java.util.*
@@ -97,17 +90,17 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding, TranslationViewMo
         initAllRecyclerView()
         initRecentlyRecyclerView()
         recentLanguageCursor()
-        PtLoadLanguageAd.getInstance().whetherToShowPt = false
-        PtLoadLanguageAd.getInstance().advertisementLoadingPt(this)
+        PtLoadTranslationAd.getInstance().whetherToShowPt = false
+        PtLoadTranslationAd.getInstance().advertisementLoadingPt(this)
         initLanguageAd()
     }
 
     private fun initLanguageAd() {
         jobNativeAdsPt = lifecycleScope.launch {
             while (isActive) {
-                PtLoadLanguageAd.getInstance()
-                    .setDisplayNativeAdPt(this@LanguageActivity, binding)
-                if (PtLoadHomeAd.getInstance().whetherToShowPt) {
+                PtLoadTranslationAd.getInstance()
+                    .setDisplayLanguageNativeAdPt(this@LanguageActivity, binding)
+                if (PtLoadTranslationAd.getInstance().whetherToShowPt) {
                     jobNativeAdsPt?.cancel()
                     jobNativeAdsPt = null
                 }
@@ -307,15 +300,15 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding, TranslationViewMo
                 return@launch
             }
             if (App.nativeAdRefreshPt) {
-                PtLoadLanguageAd.getInstance().whetherToShowPt = false
-                if (PtLoadLanguageAd.getInstance().appAdDataPt != null) {
+                PtLoadTranslationAd.getInstance().whetherToShowPt = false
+                if (PtLoadTranslationAd.getInstance().appAdDataPt != null) {
                     KLog.d(Constant.logTagPt, "onResume------>1")
-                    PtLoadLanguageAd.getInstance()
-                        .setDisplayNativeAdPt(this@LanguageActivity, binding)
+                    PtLoadTranslationAd.getInstance()
+                        .setDisplayLanguageNativeAdPt(this@LanguageActivity, binding)
                 } else {
                     binding.languageAdPt = false
                     KLog.d(Constant.logTagPt, "onResume------>2")
-                    PtLoadLanguageAd.getInstance().advertisementLoadingPt(this@LanguageActivity)
+                    PtLoadTranslationAd.getInstance().advertisementLoadingPt(this@LanguageActivity)
                     initLanguageAd()
                 }
             }

@@ -25,14 +25,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
 
-class PtLoadTranslationBackAd {
+class PtLoadBackAd {
 
     companion object {
-        fun getInstance() = InstanceHelper.translationBackLoadPt
+        fun getInstance() = InstanceHelper.backLoadPt
     }
 
     object InstanceHelper {
-        val translationBackLoadPt = PtLoadTranslationBackAd()
+        val backLoadPt = PtLoadBackAd()
     }
     var appAdDataPt: InterstitialAd? = null
 
@@ -57,21 +57,21 @@ class PtLoadTranslationBackAd {
             KLog.d(logTagPt, "广告达到上线")
             return
         }
-        KLog.d(logTagPt, "translation_back--isLoading=${isLoadingPt}")
+        KLog.d(logTagPt, "back--isLoading=${isLoadingPt}")
 
         if (isLoadingPt) {
-            KLog.d(logTagPt, "translation_back--广告加载中，不能再次加载")
+            KLog.d(logTagPt, "back--广告加载中，不能再次加载")
             return
         }
 
         if(appAdDataPt == null){
             isLoadingPt = true
-            loadTranslationBackAdvertisementPt(context,getAdServerDataPt())
+            loadBackAdvertisementPt(context,getAdServerDataPt())
         }
         if (appAdDataPt != null && !whetherAdExceedsOneHour(loadTimePt)) {
             isLoadingPt = true
             appAdDataPt =null
-            loadTranslationBackAdvertisementPt(context,getAdServerDataPt())
+            loadBackAdvertisementPt(context,getAdServerDataPt())
         }
     }
 
@@ -88,10 +88,10 @@ class PtLoadTranslationBackAd {
     /**
      * 加载首页插屏广告
      */
-    private fun loadTranslationBackAdvertisementPt(context: Context,adData: PtAdBean) {
+    private fun loadBackAdvertisementPt(context: Context,adData: PtAdBean) {
         val adRequest = AdRequest.Builder().build()
-        val id = takeSortedAdIDPt(adIndexPt, adData.pt_translation_back)
-        KLog.d(logTagPt, "translation_back--插屏广告id=$id;权重=${adData.pt_translation_back.getOrNull(adIndexPt)?.pt_weight}")
+        val id = takeSortedAdIDPt(adIndexPt, adData.pt_back)
+        KLog.d(logTagPt, "back--插屏广告id=$id;权重=${adData.pt_back.getOrNull(adIndexPt)?.pt_weight}")
 
         InterstitialAd.load(
             context,
@@ -99,12 +99,12 @@ class PtLoadTranslationBackAd {
             adRequest,
             object : InterstitialAdLoadCallback() {
                 override fun onAdFailedToLoad(adError: LoadAdError) {
-                    adError.toString().let { KLog.d(logTagPt, "translation_back---连接插屏加载失败=$it") }
+                    adError.toString().let { KLog.d(logTagPt, "back---连接插屏加载失败=$it") }
                     isLoadingPt = false
                     appAdDataPt = null
-                    if (adIndexPt < adData.pt_translation_back.size - 1) {
+                    if (adIndexPt < adData.pt_back.size - 1) {
                         adIndexPt++
-                        loadTranslationBackAdvertisementPt(context,adData)
+                        loadBackAdvertisementPt(context,adData)
                     }else{
                         adIndexPt = 0
                     }
@@ -115,26 +115,26 @@ class PtLoadTranslationBackAd {
                     isLoadingPt = false
                     appAdDataPt = interstitialAd
                     adIndexPt = 0
-                    KLog.d(logTagPt, "translation_back---返回插屏加载完成")
+                    KLog.d(logTagPt, "back---返回插屏加载完成")
                 }
             })
     }
 
     /**
-     * translation_back插屏广告回调
+     * back插屏广告回调
      */
-    private fun translationBackScreenAdCallback() {
+    private fun backScreenAdCallback() {
         appAdDataPt?.fullScreenContentCallback =
             object : FullScreenContentCallback() {
                 override fun onAdClicked() {
                     // Called when a click is recorded for an ad.
-                    KLog.d(logTagPt, "translation_back插屏广告点击")
+                    KLog.d(logTagPt, "back插屏广告点击")
                     recordNumberOfAdClickPt()
                 }
 
                 override fun onAdDismissedFullScreenContent() {
                     // Called when ad is dismissed.
-                    KLog.d(logTagPt, "关闭translation_back插屏广告${App.isBackDataPt}")
+                    KLog.d(logTagPt, "关闭back插屏广告${App.isBackDataPt}")
                     LiveEventBus.get<Boolean>(Constant.PLUG_PT_TRANSLATION_SHOW)
                         .post(App.isBackDataPt)
                     appAdDataPt = null
@@ -158,7 +158,7 @@ class PtLoadTranslationBackAd {
                     recordNumberOfAdDisplaysPt()
                     // Called when ad is shown.
                     whetherToShowPt = true
-                    KLog.d(logTagPt, "translation_back----show")
+                    KLog.d(logTagPt, "back----show")
                 }
             }
     }
@@ -166,16 +166,16 @@ class PtLoadTranslationBackAd {
     /**
      * 展示Connect广告
      */
-    fun displayTranslationBackAdvertisementPt(activity: AppCompatActivity): Boolean {
+    fun displayBackAdvertisementPt(activity: AppCompatActivity): Boolean {
         if (appAdDataPt == null) {
-            KLog.d(logTagPt, "translation_back--插屏广告加载中。。。")
+            KLog.d(logTagPt, "back--插屏广告加载中。。。")
             return false
         }
         if (whetherToShowPt || activity.lifecycle.currentState != Lifecycle.State.RESUMED) {
-            KLog.d(logTagPt, "translation_back--前一个插屏广告展示中或者生命周期不对")
+            KLog.d(logTagPt, "back--前一个插屏广告展示中或者生命周期不对")
             return false
         }
-        translationBackScreenAdCallback()
+        backScreenAdCallback()
         activity.lifecycleScope.launch(Dispatchers.Main) {
             (appAdDataPt as InterstitialAd).show(activity)
         }

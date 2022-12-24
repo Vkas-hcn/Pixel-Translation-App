@@ -30,8 +30,6 @@ object Constant {
     const val PLUG_PT_ADVERTISEMENT_CACHE="plugPtAdvertisementCache"
     // translation插屏广告展示
     const val PLUG_PT_TRANSLATION_SHOW="plugPtTranslationShow"
-    // back插屏广告展示
-    const val PLUG_PT_OCR_AD_SHOW="plugPtOcrAdShow"
     // home原生刷新
     const val HOME_PT_NATIVE_REFRESH ="homePtNativeRefresh"
     // 广告数据
@@ -64,4 +62,5 @@ object Constant {
     const val PROFILE_PT_DATA ="profilePtData"
     // 最佳服务器
     const val PROFILE_PT_DATA_FAST ="profilePtDataFast"
+    //
 }

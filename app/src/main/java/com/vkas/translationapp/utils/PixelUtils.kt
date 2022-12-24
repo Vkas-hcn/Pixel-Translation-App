@@ -90,18 +90,12 @@ object PixelUtils {
         val ptOpen = ptAdBean.pt_open.sortedWith(compareByDescending { it.pt_weight })
         val ptHome = ptAdBean.pt_home.sortedWith(compareByDescending { it.pt_weight })
         val ptTranslation = ptAdBean.pt_translation.sortedWith(compareByDescending { it.pt_weight })
-        val ptLanguage = ptAdBean.pt_language.sortedWith(compareByDescending { it.pt_weight })
-
-        val ptTranslationBack = ptAdBean.pt_translation_back.sortedWith(compareByDescending { it.pt_weight })
-        val ptOcrBack = ptAdBean.pt_ocr_back.sortedWith(compareByDescending { it.pt_weight })
+        val ptBack = ptAdBean.pt_back.sortedWith(compareByDescending { it.pt_weight })
 
         adBean.pt_open = ptOpen.toMutableList()
         adBean.pt_home = ptHome.toMutableList()
         adBean.pt_translation = ptTranslation.toMutableList()
-        adBean.pt_language = ptLanguage.toMutableList()
-
-        adBean.pt_translation_back = ptTranslationBack.toMutableList()
-        adBean.pt_ocr_back = ptOcrBack.toMutableList()
+        adBean.pt_back = ptBack.toMutableList()
 
         adBean.pt_show_num = ptAdBean.pt_show_num
         adBean.pt_click_num = ptAdBean.pt_click_num

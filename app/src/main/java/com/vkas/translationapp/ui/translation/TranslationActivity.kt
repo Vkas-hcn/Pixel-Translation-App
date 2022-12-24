@@ -3,21 +3,16 @@ package com.vkas.translationapp.ui.translation
 import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
-import android.view.View
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import com.google.mlkit.nl.translate.TranslateLanguage
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.vkas.translationapp.BR
 import com.vkas.translationapp.R
 import com.vkas.translationapp.ad.PtLoadHomeAd
-import com.vkas.translationapp.ad.PtLoadLanguageAd
 import com.vkas.translationapp.ad.PtLoadTranslationAd
-import com.vkas.translationapp.ad.PtLoadTranslationBackAd
+import com.vkas.translationapp.ad.PtLoadBackAd
 import com.vkas.translationapp.app.App
-import com.vkas.translationapp.app.App.Companion.mmkvPt
 import com.vkas.translationapp.base.BaseActivity
-import com.vkas.translationapp.bean.Language
 import com.vkas.translationapp.databinding.ActivityTranslationBinding
 import com.vkas.translationapp.enevt.Constant
 import com.vkas.translationapp.enevt.Constant.logTagPt
@@ -76,7 +71,7 @@ class TranslationActivity : BaseActivity<ActivityTranslationBinding, Translation
         LiveEventBus
             .get(Constant.PLUG_PT_TRANSLATION_SHOW, Boolean::class.java)
             .observeForever {
-                PtLoadTranslationBackAd.getInstance().advertisementLoadingPt(this)
+                PtLoadBackAd.getInstance().advertisementLoadingPt(this)
 //                if(!it){
                 finish()
 //                }
@@ -149,14 +144,14 @@ class TranslationActivity : BaseActivity<ActivityTranslationBinding, Translation
             finish()
             return
         }
-        PtLoadTranslationBackAd.getInstance().advertisementLoadingPt(this)
+        PtLoadBackAd.getInstance().advertisementLoadingPt(this)
         jobBack = GlobalScope.launch {
             try {
                 withTimeout(3000L) {
                     while (isActive) {
                         val showState =
-                            PtLoadTranslationBackAd.getInstance()
-                                .displayTranslationBackAdvertisementPt(this@TranslationActivity)
+                            PtLoadBackAd.getInstance()
+                                .displayBackAdvertisementPt(this@TranslationActivity)
                         if (showState) {
                             jobBack?.cancel()
                             jobBack = null

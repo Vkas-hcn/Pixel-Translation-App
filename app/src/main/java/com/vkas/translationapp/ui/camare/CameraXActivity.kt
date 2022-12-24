@@ -1,13 +1,11 @@
 package com.vkas.translationapp.ui.camare
 
 import android.app.AlertDialog
-import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -32,10 +30,8 @@ import com.google.mlkit.vision.text.japanese.JapaneseTextRecognizerOptions
 import com.google.mlkit.vision.text.korean.KoreanTextRecognizerOptions
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import com.jeremyliao.liveeventbus.LiveEventBus
-import com.vkas.translationapp.ad.PtLoadOcrBackAd
-import com.vkas.translationapp.ad.PtLoadTranslationBackAd
+import com.vkas.translationapp.ad.PtLoadBackAd
 import com.vkas.translationapp.app.App
-import com.vkas.translationapp.bean.Language
 import com.vkas.translationapp.enevt.Constant
 import com.vkas.translationapp.ui.language.LanguageActivity
 import com.vkas.translationapp.utils.CopyUtils
@@ -86,9 +82,9 @@ class CameraXActivity : BaseActivity<ActivityCameraxBinding, CameraXViewModel>()
     private fun liveEventBusReceive() {
         //插屏关闭后跳转
         LiveEventBus
-            .get(Constant.PLUG_PT_OCR_AD_SHOW, Boolean::class.java)
+            .get(Constant.PLUG_PT_TRANSLATION_SHOW, Boolean::class.java)
             .observeForever {
-                PtLoadOcrBackAd.getInstance().advertisementLoadingPt(this)
+                PtLoadBackAd.getInstance().advertisementLoadingPt(this)
 //                if(!it){
                     finish()
 //                }
@@ -104,13 +100,13 @@ class CameraXActivity : BaseActivity<ActivityCameraxBinding, CameraXViewModel>()
             finish()
             return
         }
-        PtLoadOcrBackAd.getInstance().advertisementLoadingPt(this)
+        PtLoadBackAd.getInstance().advertisementLoadingPt(this)
         jobBack= GlobalScope.launch {
             try {
                 withTimeout(3000L) {
                     while (isActive) {
                         val showState =
-                            PtLoadOcrBackAd.getInstance().displayOcrBackAdvertisementPt(this@CameraXActivity)
+                            PtLoadBackAd.getInstance().displayBackAdvertisementPt(this@CameraXActivity)
                         if (showState) {
                             jobBack?.cancel()
                             jobBack =null

@@ -32,6 +32,7 @@ class PtLoadOpenAd {
     object InstanceHelper {
         val openLoadPt = PtLoadOpenAd()
     }
+
     var appAdDataPt: Any? = null
 
     // 是否正在加载中
@@ -63,14 +64,14 @@ class PtLoadOpenAd {
             return
         }
 
-        if(appAdDataPt == null){
+        if (appAdDataPt == null) {
             isLoadingPt = true
-            loadStartupPageAdvertisementPt(context,getAdServerDataPt())
+            loadStartupPageAdvertisementPt(context, getAdServerDataPt())
         }
         if (appAdDataPt != null && !whetherAdExceedsOneHour(loadTimePt)) {
             isLoadingPt = true
-            appAdDataPt =null
-            loadStartupPageAdvertisementPt(context,getAdServerDataPt())
+            appAdDataPt = null
+            loadStartupPageAdvertisementPt(context, getAdServerDataPt())
         }
     }
 
@@ -86,20 +87,23 @@ class PtLoadOpenAd {
     /**
      * 加载启动页广告
      */
-    private fun loadStartupPageAdvertisementPt(context: Context,adData: PtAdBean) {
+    private fun loadStartupPageAdvertisementPt(context: Context, adData: PtAdBean) {
         if (adData.pt_open.getOrNull(adIndexPt)?.pt_type == "screen") {
-            loadStartInsertAdPt(context,adData)
+            loadStartInsertAdPt(context, adData)
         } else {
-            loadOpenAdvertisementPt(context,adData)
+            loadOpenAdvertisementPt(context, adData)
         }
     }
 
     /**
      * 加载开屏广告
      */
-    private fun loadOpenAdvertisementPt(context: Context,adData: PtAdBean) {
-        KLog.e("loadOpenAdvertisementPt","adData().pt_open=${JsonUtil.toJson(adData.pt_open)}")
-        KLog.e("loadOpenAdvertisementPt","id=${JsonUtil.toJson(takeSortedAdIDPt(adIndexPt, adData.pt_open))}")
+    private fun loadOpenAdvertisementPt(context: Context, adData: PtAdBean) {
+        KLog.e("loadOpenAdvertisementPt", "adData().pt_open=${JsonUtil.toJson(adData.pt_open)}")
+        KLog.e(
+            "loadOpenAdvertisementPt",
+            "id=${JsonUtil.toJson(takeSortedAdIDPt(adIndexPt, adData.pt_open))}"
+        )
 
         val id = takeSortedAdIDPt(adIndexPt, adData.pt_open)
 
@@ -124,8 +128,8 @@ class PtLoadOpenAd {
                     appAdDataPt = null
                     if (adIndexPt < adData.pt_open.size - 1) {
                         adIndexPt++
-                        loadStartupPageAdvertisementPt(context,adData)
-                    }else{
+                        loadStartupPageAdvertisementPt(context, adData)
+                    } else {
                         adIndexPt = 0
                     }
                     KLog.d(logTagPt, "open--开屏广告加载失败: " + loadAdError.message)
@@ -139,48 +143,50 @@ class PtLoadOpenAd {
      * 开屏广告回调
      */
     private fun advertisingOpenCallbackPt() {
-        if(appAdDataPt !is AppOpenAd){return}
-        (appAdDataPt as AppOpenAd).fullScreenContentCallback = object : FullScreenContentCallback() {
-            //取消全屏内容
-            override fun onAdDismissedFullScreenContent() {
-                KLog.d(logTagPt, "open--关闭开屏内容")
-                whetherToShowPt = false
-                appAdDataPt = null
-                if (!App.whetherBackgroundPt) {
-                    LiveEventBus.get<Boolean>(Constant.OPEN_CLOSE_JUMP)
-                        .post(true)
+        if (appAdDataPt !is AppOpenAd) {
+            return
+        }
+        (appAdDataPt as AppOpenAd).fullScreenContentCallback =
+            object : FullScreenContentCallback() {
+                //取消全屏内容
+                override fun onAdDismissedFullScreenContent() {
+                    KLog.d(logTagPt, "open--关闭开屏内容")
+                    whetherToShowPt = false
+                    appAdDataPt = null
+                    if (!App.whetherBackgroundPt) {
+                        LiveEventBus.get<Boolean>(Constant.OPEN_CLOSE_JUMP)
+                            .post(true)
+                    }
+                }
+
+                //全屏内容无法显示时调用
+                override fun onAdFailedToShowFullScreenContent(adError: AdError) {
+                    whetherToShowPt = false
+                    appAdDataPt = null
+                    KLog.d(logTagPt, "open--全屏内容无法显示时调用")
+                }
+
+                //显示全屏内容时调用
+                override fun onAdShowedFullScreenContent() {
+                    appAdDataPt = null
+                    whetherToShowPt = true
+                    recordNumberOfAdDisplaysPt()
+                    adIndexPt = 0
+                    KLog.d(logTagPt, "open---开屏广告展示")
+                }
+
+                override fun onAdClicked() {
+                    super.onAdClicked()
+                    KLog.d(logTagPt, "open---点击open广告")
+                    recordNumberOfAdClickPt()
                 }
             }
-
-            //全屏内容无法显示时调用
-            override fun onAdFailedToShowFullScreenContent(adError: AdError) {
-                whetherToShowPt = false
-                appAdDataPt = null
-                KLog.d(logTagPt, "open--全屏内容无法显示时调用")
-            }
-
-            //显示全屏内容时调用
-            override fun onAdShowedFullScreenContent() {
-                appAdDataPt = null
-                whetherToShowPt = true
-                recordNumberOfAdDisplaysPt()
-                adIndexPt = 0
-                KLog.d(logTagPt, "open---开屏广告展示")
-            }
-
-            override fun onAdClicked() {
-                super.onAdClicked()
-                KLog.d(logTagPt, "open---点击open广告")
-                recordNumberOfAdClickPt()
-            }
-        }
     }
 
     /**
      * 展示Open广告
      */
     fun displayOpenAdvertisementPt(activity: AppCompatActivity): Boolean {
-        if(appAdDataPt !is AppOpenAd){return false}
 
         if (appAdDataPt == null) {
             KLog.d(logTagPt, "open---开屏广告加载中。。。")
@@ -190,15 +196,20 @@ class PtLoadOpenAd {
             KLog.d(logTagPt, "open---前一个开屏广告展示中或者生命周期不对")
             return false
         }
-        advertisingOpenCallbackPt()
-        (appAdDataPt as AppOpenAd).show(activity)
+        if (appAdDataPt is AppOpenAd) {
+            advertisingOpenCallbackPt()
+            (appAdDataPt as AppOpenAd).show(activity)
+        } else {
+            startInsertScreenAdCallbackPt()
+            (appAdDataPt as InterstitialAd).show(activity)
+        }
         return true
     }
 
     /**
      * 加载启动页插屏广告
      */
-    private fun loadStartInsertAdPt(context: Context,adData: PtAdBean) {
+    private fun loadStartInsertAdPt(context: Context, adData: PtAdBean) {
         val adRequest = AdRequest.Builder().build()
         val id = takeSortedAdIDPt(adIndexPt, adData.pt_open)
         KLog.d(
@@ -217,8 +228,8 @@ class PtLoadOpenAd {
                     appAdDataPt = null
                     if (adIndexPt < adData.pt_open.size - 1) {
                         adIndexPt++
-                        loadStartupPageAdvertisementPt(context,adData)
-                    }else{
+                        loadStartupPageAdvertisementPt(context, adData)
+                    } else {
                         adIndexPt = 0
                     }
                 }
@@ -236,7 +247,9 @@ class PtLoadOpenAd {
      * StartInsert插屏广告回调
      */
     private fun startInsertScreenAdCallbackPt() {
-        if(appAdDataPt !is InterstitialAd){return}
+        if (appAdDataPt !is InterstitialAd) {
+            return
+        }
         (appAdDataPt as InterstitialAd).fullScreenContentCallback =
             object : FullScreenContentCallback() {
                 override fun onAdClicked() {
@@ -282,22 +295,25 @@ class PtLoadOpenAd {
     /**
      * 展示StartInsert广告
      */
-    fun displayStartInsertAdvertisementPt(activity: AppCompatActivity): Boolean {
-        if(appAdDataPt !is InterstitialAd){
-            KLog.d(logTagPt,"广告类型不对")
-            return false}
-
-        if (appAdDataPt == null) {
-            KLog.d(logTagPt, "open----插屏广告加载中。。。")
-            return false
-        }
-        if (whetherToShowPt || activity.lifecycle.currentState != Lifecycle.State.RESUMED) {
-            KLog.d(logTagPt, "open--前一个插屏广告展示中或者生命周期不对")
-            return false
-        }
-        startInsertScreenAdCallbackPt()
-        (appAdDataPt as InterstitialAd).show(activity)
-        return true
-    }
+//    fun displayStartInsertAdvertisementPt(activity: AppCompatActivity): Int {
+//        if (appAdDataPt !is InterstitialAd) {
+//            KLog.e("open------>","展示StartInsert广告")
+//
+//            displayOpenAdvertisementPt(activity)
+//            return 1
+//        }
+//
+//        if (appAdDataPt == null) {
+//            KLog.d(logTagPt, "open----插屏广告加载中。。。")
+//            return 2
+//        }
+//        if (whetherToShowPt || activity.lifecycle.currentState != Lifecycle.State.RESUMED) {
+//            KLog.d(logTagPt, "open--前一个插屏广告展示中或者生命周期不对")
+//            return 2
+//        }
+//        startInsertScreenAdCallbackPt()
+//        (appAdDataPt as InterstitialAd).show(activity)
+//        return 3
+//    }
 
 }

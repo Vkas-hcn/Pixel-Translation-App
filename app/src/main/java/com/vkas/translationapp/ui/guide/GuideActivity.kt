@@ -95,10 +95,6 @@ class GuideActivity : BaseActivity<ActivityGuideBinding, GuideViewModel>(),
             }
         }
     }
-    private fun jumpMainPage() {
-        startActivity(MainActivity::class.java)
-        finish()
-    }
 
     override fun initViewObservable() {
         super.initViewObservable()
@@ -137,39 +133,28 @@ class GuideActivity : BaseActivity<ActivityGuideBinding, GuideViewModel>(),
         //开屏
         PtLoadOpenAd.getInstance().adIndexPt = 0
         PtLoadOpenAd.getInstance().advertisementLoadingPt(this)
-        rotationDisplayOpeningAdPt(getAdServerDataPt())
+        rotationDisplayOpeningAdPt()
+
         PtLoadHomeAd.getInstance().adIndexPt = 0
         PtLoadHomeAd.getInstance().advertisementLoadingPt(this)
+
         PtLoadTranslationAd.getInstance().adIndexPt = 0
         PtLoadTranslationAd.getInstance().advertisementLoadingPt(this)
-        PtLoadLanguageAd.getInstance().adIndexPt = 0
-        PtLoadLanguageAd.getInstance().advertisementLoadingPt(this)
-        PtLoadTranslationBackAd.getInstance().adIndexPt = 0
-        PtLoadTranslationBackAd.getInstance().advertisementLoadingPt(this)
-        PtLoadOcrBackAd.getInstance().adIndexPt = 0
-        PtLoadOcrBackAd.getInstance().advertisementLoadingPt(this)
+
+        PtLoadBackAd.getInstance().adIndexPt = 0
+        PtLoadBackAd.getInstance().advertisementLoadingPt(this)
     }
     /**
      * 轮训展示开屏广告
      */
-    private fun rotationDisplayOpeningAdPt(adData: PtAdBean) {
-        jobOpenAdsPt?.cancel()
-        jobOpenAdsPt =null
+    private fun rotationDisplayOpeningAdPt() {
         jobOpenAdsPt = lifecycleScope.launch {
             try {
                 withTimeout(8000L) {
                     delay(1000L)
                     while (isActive) {
-                        val showState =
-                            if (adData.pt_open.getOrNull(PtLoadOpenAd.getInstance().adIndexPt)?.pt_type == "screen") {
-                                KLog.d(logTagPt, "open--开始检查screen广告位")
-                                PtLoadOpenAd.getInstance()
-                                    .displayStartInsertAdvertisementPt(this@GuideActivity)
-                            } else {
-                                KLog.d(logTagPt, "open--开始检查open广告位")
-                                PtLoadOpenAd.getInstance()
-                                    .displayOpenAdvertisementPt(this@GuideActivity)
-                            }
+                        val showState = PtLoadOpenAd.getInstance()
+                            .displayOpenAdvertisementPt(this@GuideActivity)
                         if (showState) {
                             jobOpenAdsPt?.cancel()
                             jobOpenAdsPt =null

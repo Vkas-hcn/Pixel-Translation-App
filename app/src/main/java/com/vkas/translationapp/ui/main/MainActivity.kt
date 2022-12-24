@@ -12,16 +12,12 @@ import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
-import com.jeremyliao.liveeventbus.LiveEventBus
 import com.vkas.translationapp.BR
 import com.vkas.translationapp.R
 import com.vkas.translationapp.ad.PtLoadHomeAd
-import com.vkas.translationapp.ad.PtLoadTranslationBackAd
 import com.vkas.translationapp.app.App
 import com.vkas.translationapp.base.BaseActivity
-import com.vkas.translationapp.bean.Language
 import com.vkas.translationapp.databinding.ActivityMainBinding
 import com.vkas.translationapp.enevt.Constant
 import com.vkas.translationapp.enevt.Constant.logTagPt
@@ -29,7 +25,6 @@ import com.vkas.translationapp.ui.camare.CameraXActivity
 import com.vkas.translationapp.ui.translation.TranslationActivity
 import com.vkas.translationapp.ui.web.WebPtActivity
 import com.vkas.translationapp.utils.KLog
-import com.vkas.translationapp.utils.MlKitData
 import com.xuexiang.xutil.tip.ToastUtils
 import kotlinx.coroutines.*
 
