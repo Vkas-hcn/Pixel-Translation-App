@@ -10,3 +10,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Translation App"
 include ':app'
+include ':shadowsocks'

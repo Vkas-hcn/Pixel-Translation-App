@@ -33,5 +33,16 @@
     <string name="do_you_want_to_try_again">Do you want to try again</string>
 
     <string name="fast_service">Fast Server</string>
-
+    <string name="vpn">VPN</string>
+    <string name="conncet_vpn_to_protect_internet_privacy">Conncet VPN to protect internet privacy</string>
+    <string name="_00_00_00">00:00:00</string>
+    <string name="connecting_time">Connecting Time</string>
+    <string name="no_permissions">No permission</string>
+    <string name="servers">Servers</string>
+    <string name="connected">Connected！</string>
+    <string name="change_location">Change Location</string>
+    <string name="disconnected">Disconnected!</string>
+    <string name="protect_network_security">Protect Network Security</string>
+    <string name="turn_vpn">Turn on vpn to Protect Privacy</string>
+    <string name="connected_failed">Connection failed,please try again</string>
 </resources>

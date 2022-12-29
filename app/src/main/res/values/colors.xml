@@ -17,5 +17,8 @@
     <color name="divider">#E5E2FD</color>
     <color name="tv_check">#FFFFFFFF</color>
     <color name="tv_dis_check">#66FFFFFF</color>
+    <color name="tv_vpn_success">#0D922C</color>
+    <color name="tv_vpn_dis">#DC2B2B</color>
+    <color name="tv_ff_333333">#FF333333</color>
 
 </resources>

@@ -48,6 +48,19 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity"
             android:launchMode="singleTop"/>
+        <activity android:name=".ui.vpn.VpnActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
+            android:launchMode="singleTop"/>
+        <activity android:name=".ui.list.ListPtActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
+            android:launchMode="singleTop"/>
+        <activity android:name=".ui.result.ResultPtActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
+            android:launchMode="singleTop"/>
+
     </application>
 
 </manifest>

@@ -36,7 +36,7 @@ class PtLoadOpenAd {
     var appAdDataPt: Any? = null
 
     // 是否正在加载中
-    private var isLoadingPt = false
+    var isLoadingPt = false
 
     //加载时间
     private var loadTimePt: Long = Date().time
@@ -120,7 +120,7 @@ class PtLoadOpenAd {
                     isLoadingPt = false
                     appAdDataPt = ad
 
-                    KLog.d(logTagPt, "open--开屏广告加载完成")
+                    KLog.d(logTagPt, "open--开屏广告加载成功")
                 }
 
                 override fun onAdFailedToLoad(loadAdError: LoadAdError) {

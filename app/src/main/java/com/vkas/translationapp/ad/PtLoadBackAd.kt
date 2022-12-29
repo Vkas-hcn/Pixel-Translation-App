@@ -1,6 +1,7 @@
 package com.vkas.translationapp.ad
 
 import android.content.Context
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -21,6 +22,7 @@ import com.vkas.translationapp.utils.PixelUtils.getAdServerDataPt
 import com.vkas.translationapp.utils.PixelUtils.recordNumberOfAdClickPt
 import com.vkas.translationapp.utils.PixelUtils.recordNumberOfAdDisplaysPt
 import com.vkas.translationapp.utils.PixelUtils.takeSortedAdIDPt
+import com.xuexiang.xutil.tip.ToastUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
@@ -37,7 +39,7 @@ class PtLoadBackAd {
     var appAdDataPt: InterstitialAd? = null
 
     // 是否正在加载中
-    private var isLoadingPt = false
+    var isLoadingPt = false
 
     //加载时间
     private var loadTimePt: Long = Date().time
@@ -99,7 +101,8 @@ class PtLoadBackAd {
             adRequest,
             object : InterstitialAdLoadCallback() {
                 override fun onAdFailedToLoad(adError: LoadAdError) {
-                    adError.toString().let { KLog.d(logTagPt, "back---连接插屏加载失败=$it") }
+                    adError.toString().let {
+                        KLog.d(logTagPt, "back---连接插屏加载失败=$it") }
                     isLoadingPt = false
                     appAdDataPt = null
                     if (adIndexPt < adData.pt_back.size - 1) {
@@ -115,7 +118,7 @@ class PtLoadBackAd {
                     isLoadingPt = false
                     appAdDataPt = interstitialAd
                     adIndexPt = 0
-                    KLog.d(logTagPt, "back---返回插屏加载完成")
+                    KLog.d(logTagPt, "back---返回插屏加载成功")
                 }
             })
     }

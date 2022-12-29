@@ -1,5 +1,5 @@
 {
-  "pt_show_num": 30,
+  "pt_show_num": 300,
   "pt_click_num": 5,
   "pt_open": [
     {
@@ -62,6 +62,66 @@
     }
   ],
   "pt_back": [
+    {
+      "pt_type": "screen",
+      "pt_platform": "admob",
+      "pt_id": "ca-app-pub-3940256099942544/8691691433",
+      "pt_weight": 2
+    },
+    {
+      "pt_type": "screen",
+      "pt_platform": "admob",
+      "pt_id": "ca-app-pub-3940256099942544/1033173712",
+      "pt_weight": 3
+    },
+    {
+      "pt_type": "screen",
+      "pt_platform": "admob",
+      "pt_id": "ca-app-pub-3940256099942544/1033173712",
+      "pt_weight": 1
+    }
+  ],
+  "pt_vpn": [
+    {
+      "pt_type": "primitive",
+      "pt_platform": "admob",
+      "pt_id": "ca-app-pub-3940256099942544/1044960115",
+      "pt_weight": 1
+    },
+    {
+      "pt_type": "primitive",
+      "pt_platform": "admob",
+      "pt_id": "ca-app-pub-3940256099942544/2247696110XX",
+      "pt_weight": 3
+    },
+    {
+      "pt_type": "primitive",
+      "pt_platform": "admob",
+      "pt_id": "ca-app-pub-3940256099942544/2247696110",
+      "pt_weight": 2
+    }
+  ],
+  "pt_result": [
+    {
+      "pt_type": "primitive",
+      "pt_platform": "admob",
+      "pt_id": "ca-app-pub-3940256099942544/1044960115",
+      "pt_weight": 1
+    },
+    {
+      "pt_type": "primitive",
+      "pt_platform": "admob",
+      "pt_id": "ca-app-pub-3940256099942544/2247696110XX",
+      "pt_weight": 3
+    },
+    {
+      "pt_type": "primitive",
+      "pt_platform": "admob",
+      "pt_id": "ca-app-pub-3940256099942544/2247696110",
+      "pt_weight": 2
+    }
+  ],
+  "pt_connect": [
     {
       "pt_type": "screen",
       "pt_platform": "admob",

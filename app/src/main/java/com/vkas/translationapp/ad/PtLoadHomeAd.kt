@@ -36,7 +36,7 @@ class PtLoadHomeAd {
     var appAdDataPt: NativeAd? = null
 
     // 是否正在加载中
-    private var isLoadingPt = false
+    var isLoadingPt = false
 
     //加载时间
     private var loadTimePt: Long = Date().time

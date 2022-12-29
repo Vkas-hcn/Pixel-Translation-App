@@ -10,6 +10,7 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.blankj.utilcode.util.ProcessUtils
+import com.github.shadowsocks.Core
 import com.google.android.gms.ads.AdActivity
 import com.google.android.gms.ads.MobileAds
 import com.google.firebase.FirebaseApp
@@ -21,10 +22,12 @@ import com.vkas.translationapp.BuildConfig
 import com.vkas.translationapp.base.AppManagerPtMVVM
 import com.vkas.translationapp.enevt.Constant
 import com.vkas.translationapp.ui.guide.GuideActivity
+import com.vkas.translationapp.ui.vpn.VpnActivity
 import com.vkas.translationapp.utils.ActivityUtils
 import com.vkas.translationapp.utils.CalendarUtils
 import com.vkas.translationapp.utils.KLog
 import com.vkas.translationapp.utils.MmkvUtils
+import com.vkas.translationapp.utils.SkTimerThread.sendTimerInformation
 import com.xuexiang.xui.XUI
 import com.xuexiang.xutil.XUtil
 import kotlinx.coroutines.GlobalScope
@@ -33,7 +36,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class App : Application(), LifecycleObserver {
-
     private var flag = 0
     private var job_pt : Job? =null
     private var ad_activity_pt: Activity? = null
@@ -88,6 +90,9 @@ class App : Application(), LifecycleObserver {
             //是否开启打印日志
             KLog.init(BuildConfig.DEBUG)
         }
+        Core.init(this, VpnActivity::class)
+        sendTimerInformation()
+        isAppOpenSameDayPt()
     }
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun onMoveToForeground() {
@@ -118,6 +123,7 @@ class App : Application(), LifecycleObserver {
         whetherBackgroundPt = false
         val intent = Intent(top_activity_pt, GuideActivity::class.java)
         intent.putExtra(Constant.RETURN_PT_CURRENT_PAGE, true)
+        MmkvUtils.set(Constant.RETURN_PT_CURRENT_PAGE,true)
         top_activity_pt?.startActivity(intent)
     }
     fun setActivityLifecyclePt(application: Application) {

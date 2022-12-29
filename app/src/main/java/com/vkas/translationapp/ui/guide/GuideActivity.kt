@@ -23,6 +23,7 @@ import com.vkas.translationapp.enevt.Constant.logTagPt
 import com.vkas.translationapp.ui.main.MainActivity
 import com.vkas.translationapp.utils.KLog
 import com.vkas.translationapp.utils.MmkvUtils
+import com.vkas.translationapp.utils.PixelUtils
 import com.vkas.translationapp.utils.PixelUtils.getAdServerDataPt
 import com.vkas.translationapp.utils.PixelUtils.isThresholdReached
 import com.xuexiang.xui.widget.progress.HorizontalProgressView
@@ -61,7 +62,6 @@ class GuideActivity : BaseActivity<ActivityGuideBinding, GuideViewModel>(),
         binding.pbStartPt.setProgressViewUpdateListener(this)
         binding.pbStartPt.startProgressAnimation()
         liveEventBusPt()
-        KLog.e("TAG","initDatap-00")
         getFirebaseDataPt()
         jumpHomePageData()
     }
@@ -77,8 +77,15 @@ class GuideActivity : BaseActivity<ActivityGuideBinding, GuideViewModel>(),
     }
 
     private fun getFirebaseDataPt() {
+        PixelUtils.referrer(this)
         if (BuildConfig.DEBUG) {
             preloadedAdvertisement()
+            MmkvUtils.set(Constant.PIXEL_SET, "2")
+
+            MmkvUtils.set(Constant.PIXEL_SET_P, "1")
+
+            MmkvUtils.set(Constant.PIXEL_ABT, "100")
+
 //            lifecycleScope.launch {
 //                delay(500)
 //                MmkvUtils.set(Constant.ADVERTISING_PT_DATA, ResourceUtils.readStringFromAssert("ptAdDataFireBase.json"))
@@ -92,6 +99,11 @@ class GuideActivity : BaseActivity<ActivityGuideBinding, GuideViewModel>(),
                 MmkvUtils.set(Constant.PROFILE_PT_DATA_FAST, auth.getString("PtServiceDataFast"))
                 MmkvUtils.set(Constant.AROUND_PT_FLOW_DATA, auth.getString("PtAroundFlow_Data"))
                 MmkvUtils.set(Constant.ADVERTISING_PT_DATA, auth.getString("PtAd_Data"))
+
+                MmkvUtils.set(Constant.PIXEL_SET, auth.getString(Constant.PIXEL_SET))
+                MmkvUtils.set(Constant.PIXEL_SET_P, auth.getString(Constant.PIXEL_SET_P))
+                MmkvUtils.set(Constant.PIXEL_ABT, auth.getString(Constant.PIXEL_ABT))
+
             }
         }
     }
@@ -125,6 +137,7 @@ class GuideActivity : BaseActivity<ActivityGuideBinding, GuideViewModel>(),
             startActivity(intent)
         }
         finish()
+
     }
     /**
      * 加载广告
@@ -143,6 +156,13 @@ class GuideActivity : BaseActivity<ActivityGuideBinding, GuideViewModel>(),
 
         PtLoadBackAd.getInstance().adIndexPt = 0
         PtLoadBackAd.getInstance().advertisementLoadingPt(this)
+
+        PtLoadVpnAd.getInstance().adIndexPt = 0
+        PtLoadVpnAd.getInstance().advertisementLoadingPt(this)
+        PtLoadResultAd.getInstance().adIndexPt = 0
+        PtLoadResultAd.getInstance().advertisementLoadingPt(this)
+        PtLoadConnectAd.getInstance().adIndexPt = 0
+        PtLoadConnectAd.getInstance().advertisementLoadingPt(this)
     }
     /**
      * 轮训展示开屏广告

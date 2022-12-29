@@ -8,6 +8,10 @@ data class PtAdBean(
     var pt_home: MutableList<PtDetailBean> = ArrayList(),
     var pt_translation: MutableList<PtDetailBean> = ArrayList(),
     var pt_back: MutableList<PtDetailBean> = ArrayList(),
+    var pt_vpn: MutableList<PtDetailBean> = ArrayList(),
+    var pt_result: MutableList<PtDetailBean> = ArrayList(),
+    var pt_connect: MutableList<PtDetailBean> = ArrayList(),
+
     var pt_click_num: Int=0,
     var pt_show_num: Int=0
 )
