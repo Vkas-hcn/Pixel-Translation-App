@@ -99,7 +99,6 @@ class App : Application(), LifecycleObserver {
         nativeAdRefreshPt =true
         job_pt?.cancel()
         job_pt = null
-        KLog.v("Lifecycle", "onMoveToForeground=$whetherBackgroundPt")
         //从后台切过来，跳转启动页
         if (whetherBackgroundPt&& !isBackDataPt) {
             jumpGuidePage()
@@ -107,7 +106,6 @@ class App : Application(), LifecycleObserver {
     }
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun onStopState(){
-        KLog.v("Lifecycle", "onSTOPJumpPage=$whetherBackgroundPt")
         job_pt = GlobalScope.launch {
             whetherBackgroundPt = false
             delay(3000L)

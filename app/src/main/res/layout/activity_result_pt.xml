@@ -57,21 +57,6 @@
                 android:textColor="#FF0D922C"
                 android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/tv_vpn_explain"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="26dp"
-                android:layout_marginBottom="25dp"
-                android:background="@drawable/bg_vpn_result"
-                android:paddingStart="35dp"
-                android:paddingTop="14dp"
-                android:paddingEnd="35dp"
-                android:paddingBottom="14dp"
-                android:text="@string/change_location"
-                android:textColor="#FFFFFFFF"
-                android:textSize="12sp" />
-
         </LinearLayout>
         <LinearLayout
             android:id="@+id/linearLayout"

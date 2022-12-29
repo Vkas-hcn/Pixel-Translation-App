@@ -45,4 +45,7 @@
     <string name="protect_network_security">Protect Network Security</string>
     <string name="turn_vpn">Turn on vpn to Protect Privacy</string>
     <string name="connected_failed">Connection failed,please try again</string>
+    <string name="vpn_connect">VPN Connect</string>
+    <string name="vpn_disconnect">VPN Disconnect</string>
+    <string name="cant_user_vpn">Due to policy reasons,this service is not available in your country</string>
 </resources>

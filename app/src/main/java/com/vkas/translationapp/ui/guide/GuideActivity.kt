@@ -62,6 +62,9 @@ class GuideActivity : BaseActivity<ActivityGuideBinding, GuideViewModel>(),
         binding.pbStartPt.setProgressViewUpdateListener(this)
         binding.pbStartPt.startProgressAnimation()
         liveEventBusPt()
+        lifecycleScope.launch(Dispatchers.IO) {
+            PixelUtils.getIpInformation()
+        }
         getFirebaseDataPt()
         jumpHomePageData()
     }
@@ -80,10 +83,10 @@ class GuideActivity : BaseActivity<ActivityGuideBinding, GuideViewModel>(),
         PixelUtils.referrer(this)
         if (BuildConfig.DEBUG) {
             preloadedAdvertisement()
-//            MmkvUtils.set(Constant.PIXEL_SET, "2")
-//
+//            MmkvUtils.set(Constant.PIXEL_SET, "4")
+////
 //            MmkvUtils.set(Constant.PIXEL_SET_P, "1")
-//
+////
 //            MmkvUtils.set(Constant.PIXEL_ABT, "100")
 
 //            lifecycleScope.launch {
@@ -95,10 +98,10 @@ class GuideActivity : BaseActivity<ActivityGuideBinding, GuideViewModel>(),
             preloadedAdvertisement()
             val auth = Firebase.remoteConfig
             auth.fetchAndActivate().addOnSuccessListener {
-                MmkvUtils.set(Constant.PROFILE_PT_DATA, auth.getString("PtServiceData"))
-                MmkvUtils.set(Constant.PROFILE_PT_DATA_FAST, auth.getString("PtServiceDataFast"))
+                MmkvUtils.set(Constant.PROFILE_PT_DATA, auth.getString("pixel_servers"))
+                MmkvUtils.set(Constant.PROFILE_PT_DATA_FAST, auth.getString("pixel_smart"))
                 MmkvUtils.set(Constant.AROUND_PT_FLOW_DATA, auth.getString("PtAroundFlow_Data"))
-                MmkvUtils.set(Constant.ADVERTISING_PT_DATA, auth.getString("PtAd_Data"))
+                MmkvUtils.set(Constant.ADVERTISING_PT_DATA, auth.getString("pixel_ad"))
 
                 MmkvUtils.set(Constant.PIXEL_SET, auth.getString(Constant.PIXEL_SET))
                 MmkvUtils.set(Constant.PIXEL_SET_P, auth.getString(Constant.PIXEL_SET_P))

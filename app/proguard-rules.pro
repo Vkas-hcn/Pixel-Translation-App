@@ -38,3 +38,7 @@
 -keep public class android.net.http.SslError
 -keep public class android.webkit.WebViewClient
 -keep class com.vkas.translationapp.bean.Language { *; }
+-keep class com.vkas.translationapp.bean.PtAdBean { *; }
+-keep class com.vkas.translationapp.bean.PtIpBean { *; }
+-keep class com.vkas.translationapp.bean.PtDetailBean { *; }
+-keep class com.vkas.translationapp.bean.PtVpnBean { *; }

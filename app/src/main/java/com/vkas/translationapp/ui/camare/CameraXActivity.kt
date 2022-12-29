@@ -79,6 +79,7 @@ class CameraXActivity : BaseActivity<ActivityCameraxBinding, CameraXViewModel>()
         updateLanguageItem()
         initCameraX()
     }
+
     private fun liveEventBusReceive() {
         //插屏关闭后跳转
         LiveEventBus
@@ -86,10 +87,11 @@ class CameraXActivity : BaseActivity<ActivityCameraxBinding, CameraXViewModel>()
             .observeForever {
                 PtLoadBackAd.getInstance().advertisementLoadingPt(this)
 //                if(!it){
-                    finish()
+                finish()
 //                }
             }
     }
+
     /**
      * 返回主页
      */
@@ -101,27 +103,29 @@ class CameraXActivity : BaseActivity<ActivityCameraxBinding, CameraXViewModel>()
             return
         }
         PtLoadBackAd.getInstance().advertisementLoadingPt(this)
-        jobBack= GlobalScope.launch {
+        jobBack = GlobalScope.launch {
             try {
                 withTimeout(3000L) {
                     while (isActive) {
                         val showState =
-                            PtLoadBackAd.getInstance().displayBackAdvertisementPt(this@CameraXActivity)
+                            PtLoadBackAd.getInstance()
+                                .displayBackAdvertisementPt(this@CameraXActivity)
                         if (showState) {
                             jobBack?.cancel()
-                            jobBack =null
+                            jobBack = null
                         }
                         delay(1000L)
                     }
                 }
             } catch (e: TimeoutCancellationException) {
-                KLog.d(Constant.logTagPt,"ocr-back---插屏超时")
-                if(jobBack!=null){
+                KLog.d(Constant.logTagPt, "ocr-back---插屏超时")
+                if (jobBack != null) {
                     finish()
                 }
             }
         }
     }
+
     override fun initViewObservable() {
         super.initViewObservable()
         showTranslationResult()
@@ -329,12 +333,15 @@ class CameraXActivity : BaseActivity<ActivityCameraxBinding, CameraXViewModel>()
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-            Constant.SELECT_PICTURE_RETURN -> if (resultCode == RESULT_OK) {
-                try {
-                    val selectedImage = data?.data
-                    imageRecognition(selectedImage as Uri)
-                } catch (e: Exception) {
-                    e.printStackTrace()
+            Constant.SELECT_PICTURE_RETURN -> {
+                App.whetherBackgroundPt = false
+                if (resultCode == RESULT_OK) {
+                    try {
+                        val selectedImage = data?.data
+                        imageRecognition(selectedImage as Uri)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                 }
             }
             Constant.JUMP_LANGUAGE_PAGE -> {
@@ -342,6 +349,7 @@ class CameraXActivity : BaseActivity<ActivityCameraxBinding, CameraXViewModel>()
             }
         }
     }
+
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             returnToHomePage()

@@ -229,6 +229,10 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(),
         automaticConnection: Boolean,
         whetherEmptyCache: Boolean = false
     ) {
+        if(viewModel.whetherParsingIsIllegalIp()){
+            viewModel.whetherTheBulletBoxCannotBeUsed(this@MainActivity)
+            return
+        }
         PtLoadVpnAd.getInstance().advertisementLoadingPt(this)
         val bundle = Bundle()
         bundle.putBoolean(Constant.AUTOMATIC_CONNECTION, automaticConnection)
@@ -293,7 +297,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(),
                     KLog.d(logTagPt,"随机落在B方案")
                     vpnBScheme() //20，代表20%为B用户；80%为A用户
                     PixelUtils.getBuriedPointUserType("pixel_user_type", "b")
-
                 }
                 else -> {
                     //A
@@ -361,7 +364,10 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(),
         val data = mmkvPt.decodeString(Constant.PIXEL_ABT, "")
         if (Utils.isNullOrEmpty(data)) {
             KLog.e("state", "判断Vpn方案---默认")
-            whetherToImplementPlanA = true
+            whetherToImplementPlanA = false
+            data?.let {
+                vpnCScheme("80")
+            }
         } else {
             //C
             whetherToImplementPlanA = false

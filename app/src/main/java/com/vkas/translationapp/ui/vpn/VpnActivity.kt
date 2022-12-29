@@ -53,8 +53,9 @@ class VpnActivity : BaseActivity<ActivityVpnBinding, VpnViewModel>(),
     ShadowsocksConnection.Callback,
     OnPreferenceDataStoreChangeListener {
     var state = BaseService.State.Idle
+
     //重复点击
-    var repeatClick =false
+    var repeatClick = false
     private var jobRepeatClick: Job? = null
 
     // 跳转结果页
@@ -65,11 +66,12 @@ class VpnActivity : BaseActivity<ActivityVpnBinding, VpnViewModel>(),
     var whetherRefreshServer = false
     private var jobNativeAdsPt: Job? = null
     private var jobStartPt: Job? = null
-    private var jobListPt: Job? = null
-    private var automaticConnection:Boolean =false
-    private var whetherEmptyCache:Boolean = false
+    private var automaticConnection: Boolean = false
+    private var whetherEmptyCache: Boolean = false
+
     //当前执行连接操作
-    private var performConnectionOperations:Boolean =false
+    private var performConnectionOperations: Boolean = false
+
     companion object {
         var stateListener: ((BaseService.State) -> Unit)? = null
     }
@@ -85,8 +87,8 @@ class VpnActivity : BaseActivity<ActivityVpnBinding, VpnViewModel>(),
     override fun initParam() {
         super.initParam()
         val bundle = intent.extras
-        automaticConnection = bundle?.getBoolean(Constant.AUTOMATIC_CONNECTION,false) == true
-        whetherEmptyCache = bundle?.getBoolean(Constant.WHETHER_EMPTY_CACHE,false) == true
+        automaticConnection = bundle?.getBoolean(Constant.AUTOMATIC_CONNECTION, false) == true
+        whetherEmptyCache = bundle?.getBoolean(Constant.WHETHER_EMPTY_CACHE, false) == true
     }
 
     override fun initToolbar() {
@@ -124,17 +126,17 @@ class VpnActivity : BaseActivity<ActivityVpnBinding, VpnViewModel>(),
             .get(Constant.PLUG_PT_ADVERTISEMENT_SHOW, Boolean::class.java)
             .observeForever {
                 // 如果是B方案连接成功关闭插屏，不需要重新加载插屏广告，之后会全部清空加载
-                if(!whetherEmptyCache){
+                if (!whetherEmptyCache) {
                     PtLoadConnectAd.getInstance().advertisementLoadingPt(this)
                 }
-                KLog.e("state","插屏关闭接收=${it}")
+                KLog.e("state", "插屏关闭接收=${it}")
 
                 //重复点击
-                jobRepeatClick=lifecycleScope.launch {
-                    if(!repeatClick){
-                        KLog.e("state","插屏关闭后跳转=${it}")
+                jobRepeatClick = lifecycleScope.launch {
+                    if (!repeatClick) {
+                        KLog.e("state", "插屏关闭后跳转=${it}")
                         connectOrDisconnectPt(it)
-                        repeatClick =true
+                        repeatClick = true
                     }
                     delay(1000)
                     repeatClick = false
@@ -157,23 +159,23 @@ class VpnActivity : BaseActivity<ActivityVpnBinding, VpnViewModel>(),
             )
             setFastInformation(currentServerData)
         }
-        PtLoadVpnAd.getInstance().whetherToShowPt =false
+        PtLoadVpnAd.getInstance().whetherToShowPt = false
         initHomeAd()
-        if(automaticConnection){
+        if (automaticConnection) {
             connect.launch(null)
         }
     }
 
     private fun initHomeAd() {
         jobNativeAdsPt = lifecycleScope.launch {
-                while (isActive) {
-                    PtLoadVpnAd.getInstance().setDisplayHomeNativeAdPt(this@VpnActivity, binding)
-                    if (PtLoadVpnAd.getInstance().whetherToShowPt) {
-                        jobNativeAdsPt?.cancel()
-                        jobNativeAdsPt = null
-                    }
-                    delay(1000L)
+            while (isActive) {
+                PtLoadVpnAd.getInstance().setDisplayHomeNativeAdPt(this@VpnActivity, binding)
+                if (PtLoadVpnAd.getInstance().whetherToShowPt) {
+                    jobNativeAdsPt?.cancel()
+                    jobNativeAdsPt = null
                 }
+                delay(1000L)
+            }
         }
     }
 
@@ -189,6 +191,7 @@ class VpnActivity : BaseActivity<ActivityVpnBinding, VpnViewModel>(),
             lifecycleScope.launch(Dispatchers.Main.immediate) {
                 delay(300L)
                 if (lifecycle.currentState == Lifecycle.State.RESUMED) {
+                    it.putBoolean(Constant.WHETHER_EMPTY_CACHE, whetherEmptyCache)
                     startActivityForResult(ResultPtActivity::class.java, 0x11, it)
                 }
             }
@@ -216,8 +219,8 @@ class VpnActivity : BaseActivity<ActivityVpnBinding, VpnViewModel>(),
     inner class PtClick {
         fun linkService() {
             if (binding.vpnState != 1) {
-                if(state.name == "Stopped"){
-                    KLog.e("state","连接点击")
+                if (state.name == "Stopped") {
+                    KLog.e("state", "连接点击")
                     PixelUtils.getBuriedPoint("pixel_vpn_link")
                 }
                 connect.launch(null)
@@ -236,7 +239,6 @@ class VpnActivity : BaseActivity<ActivityVpnBinding, VpnViewModel>(),
      */
     fun jumpToServerList() {
         lifecycleScope.launch {
-            delay(300)
             if (lifecycle.currentState != Lifecycle.State.RESUMED) {
                 return@launch
             }
@@ -324,7 +326,7 @@ class VpnActivity : BaseActivity<ActivityVpnBinding, VpnViewModel>(),
      * 是否后台关闭（true：后台关闭；false：手动关闭）
      */
     private fun connectOrDisconnectPt(isBackgroundClosed: Boolean) {
-        KLog.e("state","连接或断开")
+        KLog.e("state", "连接或断开")
         if (state.canStop) {
             if (!isBackgroundClosed) {
                 viewModel.jumpConnectionResultsPage(false)
@@ -355,9 +357,9 @@ class VpnActivity : BaseActivity<ActivityVpnBinding, VpnViewModel>(),
      */
     private fun connectionStatusJudgment(state: String) {
         KLog.e("TAG", "connectionStatusJudgment=${state}")
-        if(performConnectionOperations && state !="Connected"){
+        if (performConnectionOperations && state != "Connected") {
             //vpn连接失败
-            KLog.d(logTagPt,"vpn连接失败")
+            KLog.d(logTagPt, "vpn连接失败")
             ToastUtils.toast(getString(R.string.connected_failed))
             PixelUtils.getBuriedPoint("pixel_v_fail_clcik")
         }
@@ -381,7 +383,7 @@ class VpnActivity : BaseActivity<ActivityVpnBinding, VpnViewModel>(),
     private fun connectionServerSuccessful() {
         KLog.e("TAG", "连接服务器成功=whetherEmptyCache=${whetherEmptyCache}")
         PixelUtils.getBuriedPoint("pixel_v_succ_link")
-        if(whetherEmptyCache){
+        if (whetherEmptyCache) {
             //B方案清空广告缓存重新加载
             viewModel.emptyAdvertisementCacheAndReload(this)
         }
@@ -405,21 +407,24 @@ class VpnActivity : BaseActivity<ActivityVpnBinding, VpnViewModel>(),
         when (binding.vpnState) {
             0 -> {
                 binding.imgState.setImageResource(R.drawable.ic_vpn_swich)
-                binding.frState.background = ContextCompat.getDrawable(this, R.drawable.bg_vpn_switch)
+                binding.frState.background =
+                    ContextCompat.getDrawable(this, R.drawable.bg_vpn_switch)
                 binding.txtTimerPt.text = getString(R.string._00_00_00)
                 SkTimerThread.endTiming()
                 binding.lavViewPt.pauseAnimation()
                 binding.lavViewPt.visibility = View.GONE
             }
-            1->{
-                binding.frState.background = ContextCompat.getDrawable(this, R.drawable.bg_vpn_switch)
+            1 -> {
+                binding.frState.background =
+                    ContextCompat.getDrawable(this, R.drawable.bg_vpn_switch)
                 binding.lavViewPt.setAnimation("data_connect.json")
                 binding.lavViewPt.visibility = View.VISIBLE
                 binding.lavViewPt.playAnimation()
             }
-            2->{
+            2 -> {
                 binding.imgState.setImageResource(R.drawable.ic_vpn_turn)
-                binding.frState.background = ContextCompat.getDrawable(this, R.drawable.bg_vpn_switch_chek)
+                binding.frState.background =
+                    ContextCompat.getDrawable(this, R.drawable.bg_vpn_switch_chek)
                 binding.lavViewPt.setAnimation("data_success.json")
                 SkTimerThread.startTiming()
                 binding.lavViewPt.visibility = View.VISIBLE
@@ -464,6 +469,12 @@ class VpnActivity : BaseActivity<ActivityVpnBinding, VpnViewModel>(),
                 return@launch
             }
             if (App.nativeAdRefreshPt) {
+                if (viewModel.afterDisconnectionServerData.pt_ip == null) {
+                    setFastInformation(viewModel.currentServerData)
+                } else {
+                    setFastInformation(viewModel.afterDisconnectionServerData)
+                }
+
                 PtLoadVpnAd.getInstance().whetherToShowPt = false
                 if (PtLoadVpnAd.getInstance().appAdDataPt != null) {
                     KLog.d(logTagPt, "onResume------>1")
@@ -492,7 +503,7 @@ class VpnActivity : BaseActivity<ActivityVpnBinding, VpnViewModel>(),
         super.onDestroy()
         LiveEventBus
             .get(Constant.PLUG_PT_ADVERTISEMENT_SHOW, Boolean::class.java)
-            .removeObserver{}
+            .removeObserver {}
         DataStore.publicStore.unregisterChangeListener(this)
         connection.disconnect(this)
         jobStartPt?.cancel()

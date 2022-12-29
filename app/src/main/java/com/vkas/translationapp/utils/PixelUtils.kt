@@ -19,6 +19,9 @@ import com.xuexiang.xui.utils.Utils
 import com.xuexiang.xutil.net.JsonUtil
 import com.xuexiang.xutil.resource.ResUtils.getString
 import com.xuexiang.xutil.resource.ResourceUtils
+import java.net.HttpURLConnection
+import java.net.URL
+import java.nio.charset.Charset
 
 object PixelUtils {
     private var installReferrer: String = ""
@@ -327,4 +330,32 @@ object PixelUtils {
         }
     }
 
+    fun getIpInformation() {
+        val sb = StringBuffer()
+        try {
+            val url = URL("https://ip.seeip.org/geoip/")
+            val conn = url.openConnection() as HttpURLConnection
+            conn.requestMethod = "GET"
+            conn.connectTimeout = 10000
+            val code = conn.responseCode
+            if (code == 200) {
+                val `is` = conn.inputStream
+                val b = ByteArray(1024)
+                var len: Int
+                while (`is`.read(b).also { len = it } != -1) {
+                    sb.append(String(b, 0, len, Charset.forName("UTF-8")))
+                }
+                `is`.close()
+                conn.disconnect()
+                KLog.e("state", "sb==${sb.toString()}")
+                MmkvUtils.set(Constant.IP_INFORMATION, sb.toString())
+            } else {
+                MmkvUtils.set(Constant.IP_INFORMATION, "")
+                KLog.e("state", "code==${code.toString()}")
+            }
+        } catch (var1: Exception) {
+            MmkvUtils.set(Constant.IP_INFORMATION, "")
+            KLog.e("state", "Exception==${var1.message}")
+        }
+    }
 }

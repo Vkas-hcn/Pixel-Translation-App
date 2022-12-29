@@ -1,19 +1,28 @@
 package com.vkas.translationapp.ui.vpn
 
+import android.app.AlertDialog
 import android.app.Application
 import android.content.Context
+import android.content.DialogInterface
+import android.graphics.Color
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import com.github.shadowsocks.database.Profile
 import com.github.shadowsocks.database.ProfileManager
 import com.github.shadowsocks.preference.DataStore
+import com.google.gson.reflect.TypeToken
+import com.vkas.translationapp.R
 import com.vkas.translationapp.ad.*
 import com.vkas.translationapp.app.App.Companion.mmkvPt
 import com.vkas.translationapp.base.BaseViewModel
+import com.vkas.translationapp.bean.PtAdBean
+import com.vkas.translationapp.bean.PtIpBean
 import com.vkas.translationapp.bean.PtVpnBean
 import com.vkas.translationapp.enevt.Constant
 import com.vkas.translationapp.utils.MmkvUtils
 import com.vkas.translationapp.utils.PixelUtils
+import com.xuexiang.xui.utils.Utils
 import com.xuexiang.xutil.net.JsonUtil
 
 class VpnViewModel (application: Application) : BaseViewModel(application){
@@ -128,14 +137,15 @@ class VpnViewModel (application: Application) : BaseViewModel(application){
         PtLoadVpnAd.getInstance().adIndexPt = 0
         PtLoadVpnAd.getInstance().advertisementLoadingPt(context)
 
-        PtLoadResultAd.getInstance().appAdDataPt = null
-        PtLoadResultAd.getInstance().isLoadingPt = false
-        PtLoadResultAd.getInstance().adIndexPt = 0
-        PtLoadResultAd.getInstance().advertisementLoadingPt(context)
+//        PtLoadResultAd.getInstance().appAdDataPt = null
+//        PtLoadResultAd.getInstance().isLoadingPt = false
+//        PtLoadResultAd.getInstance().adIndexPt = 0
+//        PtLoadResultAd.getInstance().advertisementLoadingPt(context)
 
         PtLoadConnectAd.getInstance().appAdDataPt = null
         PtLoadConnectAd.getInstance().isLoadingPt = false
         PtLoadConnectAd.getInstance().adIndexPt = 0
         PtLoadConnectAd.getInstance().advertisementLoadingPt(context)
     }
+
 }

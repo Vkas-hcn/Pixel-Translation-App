@@ -39,9 +39,11 @@
 
             <EditText
                 android:id="@+id/ed_camera_top"
-                android:layout_width="292dp"
+                android:layout_width="match_parent"
                 android:layout_height="156dp"
                 android:layout_marginTop="108dp"
+                android:layout_marginStart="34dp"
+                android:layout_marginEnd="34dp"
                 android:background="@null"
                 android:focusable="false"
                 android:gravity="top"
@@ -54,9 +56,11 @@
 
             <View
                 android:id="@+id/view_line"
-                android:layout_width="292dp"
+                android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="22dp"
+                android:layout_marginStart="34dp"
+                android:layout_marginEnd="34dp"
                 android:background="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -64,9 +68,11 @@
 
             <EditText
                 android:id="@+id/ed_camera_down"
-                android:layout_width="292dp"
+                android:layout_width="match_parent"
                 android:layout_height="156dp"
                 android:layout_marginTop="22dp"
+                android:layout_marginStart="34dp"
+                android:layout_marginEnd="34dp"
                 android:background="@null"
                 android:focusable="false"
                 android:gravity="top"

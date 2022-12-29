@@ -101,5 +101,6 @@ object Constant {
 
     //ab方案
     const val PIXEL_ABT = "pixel_abt"
-
+    //ip信息
+    const val IP_INFORMATION= "ipInformation"
 }
