@@ -20,7 +20,7 @@ android {
 
     buildTypes {
         debug {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         release {
@@ -54,7 +54,7 @@ dependencies {
     implementation 'io.github.jeremyliao:live-event-bus-x:1.8.0'
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.8'
     implementation 'com.tencent:mmkv:1.2.14'
-    api 'cat.ereza:customactivityoncrash:2.3.0'
+//    api 'cat.ereza:customactivityoncrash:2.3.0'
     implementation rootProject.ext.dependencies.coreKtx
     implementation rootProject.ext.dependencies.fragmentKtx
     implementation rootProject.ext.dependencies.lifeCycleKtx

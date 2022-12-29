@@ -47,5 +47,6 @@
     <string name="connected_failed">Connection failed,please try again</string>
 
     <string name="facebook_app_id">903734440982185</string>
+    <string name="google_ad_id">ca-app-pub-5312421205321725~5014443984</string>
 
 </resources>
