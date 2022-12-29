@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+        <variable
+            name="presenter"
+            type="com.vkas.translationapp.ui.result.ResultPtActivity.PtClick" />
+
+        <variable
+            name="resultAdPt"
+            type="Boolean"
+            android:value="false" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary">
+
+        <include
+            android:id="@+id/result_title"
+            layout="@layout/layout_toolbar_pt" />
+
+        <LinearLayout
+            android:id="@+id/lin_connect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="26dp"
+            android:background="@drawable/ic_bg_vpn_info_result"
+            android:gravity="start"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/result_title">
+
+            <ImageView
+                android:id="@+id/img_vpn_state"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="84dp"
+                android:layout_marginTop="17dp"
+                android:src="@drawable/ic_vpn_success" />
+
+            <TextView
+                android:id="@+id/tv_connected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="54dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="14dp"
+                android:text="@string/connected"
+                android:textColor="#FF0D922C"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_vpn_explain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="26dp"
+                android:layout_marginBottom="25dp"
+                android:background="@drawable/bg_vpn_result"
+                android:paddingStart="35dp"
+                android:paddingTop="14dp"
+                android:paddingEnd="35dp"
+                android:paddingBottom="14dp"
+                android:text="@string/change_location"
+                android:textColor="#FFFFFFFF"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="-55dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lin_connect">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/con_ocr"
+                android:layout_width="157dp"
+                android:layout_height="162dp"
+                android:background="@drawable/ic_bg_vpn_result"
+                android:onClick="@{() ->presenter.clickOcr()}">
+
+                <ImageView
+                    android:id="@+id/imageView_ocr"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="22dp"
+                    android:src="@mipmap/ic_ocr"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView_ocr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="22dp"
+                    android:text="@string/ocr"
+                    android:textColor="#FF333333"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView_ocr" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/con_tran"
+                android:layout_width="157dp"
+                android:layout_height="162dp"
+                android:layout_marginStart="14dp"
+                android:background="@drawable/ic_bg_vpn_result"
+                android:onClick="@{() ->presenter.clickTranslation()}"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <ImageView
+                    android:id="@+id/imageView_tran"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="22dp"
+                    android:src="@mipmap/ic_translation"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView_tran"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="22dp"
+                    android:text="@string/translate"
+                    android:textColor="#FF333333"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView_tran" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="268dp"
+            android:layout_margin="14dp"
+            android:background="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <FrameLayout
+                android:id="@+id/pt_ad_frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="@{resultAdPt ? View.VISIBLE : View.GONE}" />
+
+            <ImageView
+                android:id="@+id/img_pt_ad_frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_vpn_no_ad"
+                android:visibility="@{resultAdPt ? View.GONE : View.VISIBLE}" />
+        </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

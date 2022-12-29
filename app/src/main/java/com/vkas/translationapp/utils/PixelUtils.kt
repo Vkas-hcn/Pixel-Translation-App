@@ -261,8 +261,8 @@ object PixelUtils {
         context: Context,
     ) {
 //        installReferrer = "gclid"
-        installReferrer = "fb4a"
-        MmkvUtils.set(Constant.INSTALL_REFERRER, installReferrer)
+//        installReferrer = "fb4a"
+//        MmkvUtils.set(Constant.INSTALL_REFERRER, installReferrer)
         try {
             val referrerClient = InstallReferrerClient.newBuilder(context).build()
             referrerClient.startConnection(object : InstallReferrerStateListener {

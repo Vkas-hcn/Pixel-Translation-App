@@ -80,11 +80,11 @@ class GuideActivity : BaseActivity<ActivityGuideBinding, GuideViewModel>(),
         PixelUtils.referrer(this)
         if (BuildConfig.DEBUG) {
             preloadedAdvertisement()
-            MmkvUtils.set(Constant.PIXEL_SET, "2")
-
-            MmkvUtils.set(Constant.PIXEL_SET_P, "1")
-
-            MmkvUtils.set(Constant.PIXEL_ABT, "100")
+//            MmkvUtils.set(Constant.PIXEL_SET, "2")
+//
+//            MmkvUtils.set(Constant.PIXEL_SET_P, "1")
+//
+//            MmkvUtils.set(Constant.PIXEL_ABT, "100")
 
 //            lifecycleScope.launch {
 //                delay(500)
